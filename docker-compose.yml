@@ -10,11 +10,5 @@ services:
     volumes:
       - ./uhf-data:/var/lib/uhf-server
     working_dir: /uhf-data
-    healthcheck:
-      test: ["CMD", "curl", "-sf", "http://localhost:8000/server/stats"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
     network_mode: host
-    command: ["uhf-server", "--port", "8000"]
+    command: ["uhf-server", "--port", "8000"] # optionally change the port in case it's already in use by something else
