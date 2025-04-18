@@ -52,8 +52,8 @@ uhf-server-docker/
 ## Customization
 
 - **Change port:** edit the `--port` value in `docker-compose.yml`
-- **Change storage path:** adjust the `volumes:` path
-- **Auto-start:** enabled via `restart: unless-stopped`
+- **Change storage path:** adjust the `volumes:` path in `docker-compose.yml`
+- **Auto-start:** enabled via `restart: unless-stopped` `docker-compose.yml`
 
 
 ---
