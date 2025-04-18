@@ -1,6 +1,6 @@
-# UHF Server – Self-hosted Docker Setup
+# UHF Server – Docker Setup
 
-Run the [UHF Recording Server](https://www.uhfapp.com/server) locally using Docker. No manual setup, no system-level dependencies — just `docker compose up`.
+Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up`.
 
 ---
 
