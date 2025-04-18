@@ -1,0 +1,21 @@
+FROM debian:bullseye-slim
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    bash \
+    ffmpeg \
+    unzip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Define a fake sudo so the script doesn't break
+RUN echo '#!/bin/bash\n"$@"' > /usr/local/bin/sudo && chmod +x /usr/local/bin/sudo
+
+# Install UHF CLI
+RUN curl -sL https://link.uhfapp.com/setup.sh | bash
+
+WORKDIR /data
+
+RUN mkdir -p /var/lib/uhf-server
+
+CMD ["bash"]
