@@ -35,7 +35,7 @@ docker compose up --build -d
 Then open UHF, go to the Recordings tab, and add:
 
 - SERVER ADDRESS: `<your-host-ip>`
-- SERVER PORT: `8000`
+- SERVER PORT: `8000` (or the port you set up in `docker-compose.yaml`)
 
 ---
 
