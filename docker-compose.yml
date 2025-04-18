@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  uhf-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.uhf
+    container_name: uhf-server
+    restart: unless-stopped
+    volumes:
+      - ./uhf-data:/var/lib/uhf-server
+    working_dir: /uhf-data
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8000/server/stats"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    network_mode: host
+    command: ["uhf-server", "--port", "8000"]
