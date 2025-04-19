@@ -10,4 +10,5 @@ services:
     volumes:
       - ./uhf-data:/var/lib/uhf-server
     network_mode: host
-    
+    env_file:
+      - .env
