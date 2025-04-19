@@ -18,4 +18,4 @@ WORKDIR /data
 
 RUN mkdir -p /var/lib/uhf-server
 
-CMD ["bash"]
+CMD ["uhf-server"]
