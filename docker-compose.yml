@@ -11,4 +11,4 @@ services:
       - ./uhf-data:/var/lib/uhf-server
     network_mode: host
     env_file:
-      - stack.env
+      - .env
