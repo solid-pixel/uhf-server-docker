@@ -12,7 +12,7 @@ services:
     network_mode: host
     environment:
       - API_HOST=0.0.0.0
-      - API_PORT=78000
+      - API_PORT=8000
       - RECORDINGS_DIR=/var/lib/uhf-server/recordings
       - DB_PATH=/var/lib/uhf-server/db.json
       - LOG_LEVEL=INFO
