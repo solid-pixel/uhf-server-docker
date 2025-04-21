@@ -10,7 +10,7 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 
 ## ✨ Features
 
-- Fully self-hosted UHF server
+- Fully self-hosted [UHF server](https://github.com/swapplications/uhf-server-dist)
 - Docker + Compose setup (no system install required)
 - `unzip` and `ffmpeg` bundled in
 - Persistent volume for recordings
