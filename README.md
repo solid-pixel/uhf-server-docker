@@ -8,7 +8,7 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 
 ---
 
-## Features
+## ✨ Features
 
 - Fully self-hosted UHF server
 - Docker + Compose setup (no system install required)
@@ -18,14 +18,14 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 
 ---
 
-## Requirements
+## 📋 Requirements
 
 - Docker
 - Docker Compose v2+
 
 ---
 
-## Getting Started
+## 🚀 Getting Started
 
 Clone this repo and run:
 
@@ -44,7 +44,7 @@ That's it! No building required.
 
 ---
 
-## Folder Structure
+## 📁 Folder Structure
 
 ```
 uhf-server-docker/
@@ -54,7 +54,7 @@ uhf-server-docker/
 
 ---
 
-## Customization
+## ⚙️ Customization
 
 - **Change port:** edit the `--port` value in `docker-compose.yml`
 - **Change storage path:** adjust the `volumes:` path in `docker-compose.yml`
@@ -62,20 +62,20 @@ uhf-server-docker/
 
 ---
 
-## Credits
+## 👥 Credits
 
 - [UHF Server](https://www.uhfapp.com) by Swapplications
 - Docker wrapper by [Alessandro Benassi](https://github.com/solid-pixel)
 
 ---
 
-## License
+## 📜 License
 
 MIT — do what you want, no warranty
 
 ---
 
-## Changelog
+## 📝 Changelog
 
 <!-- Add your changes below. Most recent at the top. -->
 
