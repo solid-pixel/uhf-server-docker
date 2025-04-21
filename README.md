@@ -87,3 +87,7 @@ MIT — do what you want, no warranty
 - Added Docker Hub run instructions to README
 - Improved Docker workflow and documentation
 - Restructured README for better clarity
+
+### Version 1.0.0
+Initial release
+
