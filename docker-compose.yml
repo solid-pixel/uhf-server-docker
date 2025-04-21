@@ -9,4 +9,9 @@ services:
       - ./uhf-data:/var/lib/uhf-server
     working_dir: /uhf-data
     network_mode: host
-    command: ["uhf-server", "--port", "8000"] # optionally change the port in case it's already in use by something else
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - RECORDINGS_DIR=/var/lib/uhf-server/recordings
+      - DB_PATH=/var/lib/uhf-server/db.json
+      - LOG_LEVEL=INFO

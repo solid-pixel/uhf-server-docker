@@ -56,9 +56,17 @@ uhf-server-docker/
 
 ## ⚙️ Customization
 
-- **Change port:** edit the `--port` value in `docker-compose.yml`
-- **Change storage path:** adjust the `volumes:` path in `docker-compose.yml`
-- **Auto-start:** enabled via `restart: unless-stopped` in `docker-compose.yml`
+The following environment variables can be configured in `docker-compose.yml`:
+
+- **API_HOST**: Server listen address (default: `0.0.0.0`)
+- **API_PORT**: Server port (default: `8000`)
+- **RECORDINGS_DIR**: Path to recordings inside container (default: `/var/lib/uhf-server/recordings`)
+- **DB_PATH**: Path to database file inside container (default: `/var/lib/uhf-server/db.json`)
+- **LOG_LEVEL**: Logging verbosity (default: `INFO`)
+
+You can also customize:
+- **Storage location:** adjust the `volumes:` path in `docker-compose.yml`
+- **Auto-restart:** enabled via `restart: unless-stopped` in `docker-compose.yml`
 
 ---
 
