@@ -1,7 +1,7 @@
 # UHF Server – Docker Setup
 
 [![Repo](https://img.shields.io/badge/repo-1.1.0-purple.svg)](#changelog)
-[![UHF Server](https://img.shields.io/badge/uhf_server-1.1.0-orange.svg)](#changelog)
+[![UHF Server](https://img.shields.io/badge/uhf_server-1.1.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
 [![Updated](https://img.shields.io/badge/updated-2025--04--21-blue.svg)](#changelog)
 
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up`.
@@ -10,11 +10,11 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 
 ## ✨ Features
 
-- Fully self-hosted [UHF server](https://github.com/swapplications/uhf-server-dist)
+- Fully self-hosted UHF server
+- `uhf-server` script bundled in (https://github.com/swapplications/uhf-server-dist)
 - Docker + Compose setup (no system install required)
 - `unzip` and `ffmpeg` bundled in
 - Persistent volume for recordings
-- Works on any Linux machine (x86_64)
 
 ---
 
