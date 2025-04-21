@@ -79,15 +79,20 @@ MIT — do what you want, no warranty
 
 <!-- Add your changes below. Most recent at the top. -->
 
-### Version 1.1.0 – 2025-04-21
-#### 🐳 Docker Image Changes
+<details open>
+<summary><strong>Version 1.1.0</strong> – 2025-04-21</summary>
+
+#### Docker Image Changes
 - Published image to Docker Hub (`solidpixel/uhf-server:1.1.0`)
 
-#### 📝 Repository Changes
+#### Repository Changes
 - Added Docker Hub run instructions to README
 - Improved Docker workflow and documentation
 - Restructured README for better clarity
+</details>
 
-### Version 1.0.0
+<details>
+<summary><strong>Version 1.0.0</strong></summary>
+
 Initial release
-
+</details>
