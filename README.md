@@ -95,7 +95,8 @@ MIT — do what you want, no warranty
 
 #### Repository Changes
 - Added Docker Hub run instructions to README
-- Improved Docker workflow and documentation
+- Switched to environment-based configuration (API_HOST, API_PORT, etc.)
+- Improved documentation with customization options
 - Restructured README for better clarity
 </details>
 
