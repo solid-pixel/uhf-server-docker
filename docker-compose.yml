@@ -15,3 +15,4 @@ services:
       - RECORDINGS_DIR=/var/lib/uhf-server/recordings
       - DB_PATH=/var/lib/uhf-server/db.json
       - LOG_LEVEL=INFO
+    command: ["uhf-server"]
