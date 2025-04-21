@@ -2,13 +2,17 @@ version: '3.8'
 
 services:
   uhf-server:
-    build:
-      context: .
-      dockerfile: Dockerfile.uhf
+    image: solidpixel/uhf-server:1.1.0
     container_name: uhf-server
     restart: unless-stopped
     volumes:
       - ./uhf-data:/var/lib/uhf-server
     working_dir: /uhf-data
     network_mode: host
-    command: ["uhf-server", "--port", "8000"] # optionally change the port in case it's already in use by something else
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - RECORDINGS_DIR=/var/lib/uhf-server/recordings
+      - DB_PATH=/var/lib/uhf-server/db.json
+      - LOG_LEVEL=INFO
+    command: ["uhf-server"]
