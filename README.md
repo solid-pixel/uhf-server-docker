@@ -1,5 +1,9 @@
 # UHF Server – Docker Setup
 
+[![Repo](https://img.shields.io/badge/repo-1.1.0-purple.svg)](#changelog)
+[![UHF Server](https://img.shields.io/badge/uhf_server-1.1.0-orange.svg)](#changelog)
+[![Updated](https://img.shields.io/badge/updated-2025--04--21-blue.svg)](#changelog)
+
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up`.
 
 ---
@@ -28,13 +32,15 @@ Clone this repo and run:
 ```bash
 git clone https://github.com/solid-pixel/uhf-server-docker
 cd uhf-server-docker
-docker compose up --build -d
+docker compose up -d    # Will automatically pull image from Docker Hub
 ```
 
 Then open UHF, go to the Recordings tab, and add:
 
 - SERVER ADDRESS: `<your-host-ip>`
-- SERVER PORT: `8000` (or the port you set up in `docker-compose.yaml`)
+- SERVER PORT: `8000` (or the port you set up in `docker-compose.yml`)
+
+That's it! No building required. 
 
 ---
 
@@ -42,8 +48,7 @@ Then open UHF, go to the Recordings tab, and add:
 
 ```
 uhf-server-docker/
-├── docker-compose.yml      # Container config
-├── Dockerfile.uhf          # Image build file
+├── docker-compose.yml      # Container config (uses pre-built image)
 └── uhf-data/               # Persistent recordings & database
 ```
 
@@ -54,7 +59,6 @@ uhf-server-docker/
 - **Change port:** edit the `--port` value in `docker-compose.yml`
 - **Change storage path:** adjust the `volumes:` path in `docker-compose.yml`
 - **Auto-start:** enabled via `restart: unless-stopped` in `docker-compose.yml`
-
 
 ---
 
@@ -68,3 +72,18 @@ uhf-server-docker/
 ## License
 
 MIT — do what you want, no warranty
+
+---
+
+## Changelog
+
+<!-- Add your changes below. Most recent at the top. -->
+
+### Version 1.1.0 – 2025-04-21
+#### 🐳 Docker Image Changes
+- Published image to Docker Hub (`solidpixel/uhf-server:1.1.0`)
+
+#### 📝 Repository Changes
+- Added Docker Hub run instructions to README
+- Improved Docker workflow and documentation
+- Restructured README for better clarity
