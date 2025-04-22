@@ -1,6 +1,6 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.1.1-purple.svg)](#changelog)
+[![Repo](https://img.shields.io/badge/repo-1.1.2-purple.svg)](#changelog)
 [![UHF Server](https://img.shields.io/badge/uhf_server-1.1.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
 [![Updated](https://img.shields.io/badge/updated-2025--04--22-blue.svg)](#changelog)
 
@@ -89,6 +89,13 @@ MIT — do what you want, no warranty
 <!-- Add your changes below. Most recent at the top. -->
 
 <details open>
+<summary><strong>Version 1.1.2</strong> – 2025-04-22</summary>
+
+#### Repository Changes
+- Fixed GitHub Actions permissions for automated releases
+</details>
+
+<details>
 <summary><strong>Version 1.1.1</strong> – 2025-04-22</summary>
 
 #### Docker Image Changes
