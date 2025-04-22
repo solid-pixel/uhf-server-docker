@@ -14,6 +14,7 @@ permissions:
 
 jobs:
   tag:
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.version }}
@@ -43,7 +44,7 @@ jobs:
     needs: tag
     if: |
       !contains(github.event.pull_request.title, '[skip_build]') &&
-      (github.event_name != 'pull_request' || github.event.pull_request.merged == true)
+      (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
