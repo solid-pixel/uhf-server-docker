@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   uhf-server:
-    image: solidpixel/uhf-server:1.1.0
+    image: solidpixel/uhf-server:latest
     container_name: uhf-server
     restart: unless-stopped
     volumes:

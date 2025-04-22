@@ -1,6 +1,6 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.2.0-purple.svg)](#changelog)
+[![Repo](https://img.shields.io/badge/repo-1.2.1-purple.svg)](#changelog)
 [![UHF Server](https://img.shields.io/badge/uhf_server-1.2.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
 [![Updated](https://img.shields.io/badge/updated-2025--04--22-blue.svg)](#changelog)
 
@@ -34,6 +34,11 @@ Clone this repo and run:
 git clone https://github.com/solid-pixel/uhf-server-docker
 cd uhf-server-docker
 docker compose up -d    # Will automatically pull image from Docker Hub
+```
+
+To verify the UHF server version:
+```bash
+docker compose exec uhf-server uhf-server --version
 ```
 
 Then open UHF, go to the Recordings tab, and add:
@@ -89,6 +94,13 @@ MIT — do what you want, no warranty
 <!-- Add your changes below. Most recent at the top. -->
 
 <details open>
+<summary><strong>Version 1.2.1</strong> – 2025-04-22</summary>
+
+#### Repository Changes
+- Updated docker-compose.yml to use latest tag
+</details>
+
+<details>
 <summary><strong>Version 1.2.0</strong> – 2025-04-22</summary>
 
 #### Dependencies
