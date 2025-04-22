@@ -5,16 +5,18 @@ on:
     branches:
       - main
       - master
-    tags:
-      - 'v*.*.*'
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  docker:
+  tag:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,6 +39,19 @@ jobs:
             git push origin "v${{ steps.version.outputs.version }}" --force
           fi
 
+  docker:
+    needs: tag
+    if: |
+      !contains(github.event.pull_request.title, '[skip_build]') &&
+      (github.event_name != 'pull_request' || github.event.pull_request.merged == true)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -58,4 +73,4 @@ jobs:
           push: true
           tags: |
             solidpixel/uhf-server:latest
-            solidpixel/uhf-server:${{ steps.version.outputs.version }}
+            solidpixel/uhf-server:${{ needs.tag.outputs.version }}
