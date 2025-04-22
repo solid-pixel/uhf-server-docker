@@ -1,8 +1,8 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.1.0-purple.svg)](#changelog)
+[![Repo](https://img.shields.io/badge/repo-1.1.1-purple.svg)](#changelog)
 [![UHF Server](https://img.shields.io/badge/uhf_server-1.1.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
-[![Updated](https://img.shields.io/badge/updated-2025--04--21-blue.svg)](#changelog)
+[![Updated](https://img.shields.io/badge/updated-2025--04--22-blue.svg)](#changelog)
 
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up`.
 
@@ -15,6 +15,7 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 - Docker + Compose setup (no system install required)
 - `unzip` and `ffmpeg` bundled in
 - Persistent volume for recordings
+- Supports multiple architectures (amd64, arm64)
 
 ---
 
@@ -88,6 +89,18 @@ MIT — do what you want, no warranty
 <!-- Add your changes below. Most recent at the top. -->
 
 <details open>
+<summary><strong>Version 1.1.1</strong> – 2025-04-22</summary>
+
+#### Docker Image Changes
+- Added multi-architecture support (amd64, arm64)
+- Improved platform compatibility for different CPU architectures
+
+#### Repository Changes
+- Added GitHub Actions workflow for multi-arch builds
+- Updated documentation with architecture support info
+</details>
+
+<details>
 <summary><strong>Version 1.1.0</strong> – 2025-04-21</summary>
 
 #### Docker Image Changes
