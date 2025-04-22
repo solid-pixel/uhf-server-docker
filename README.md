@@ -36,11 +36,6 @@ cd uhf-server-docker
 docker compose up -d    # Will automatically pull image from Docker Hub
 ```
 
-To verify the UHF server version:
-```bash
-docker compose exec uhf-server uhf-server --version
-```
-
 Then open UHF, go to the Recordings tab, and add:
 
 - SERVER ADDRESS: `<your-host-ip>`
