@@ -13,7 +13,26 @@ permissions:
   contents: write
 
 jobs:
+  check_pr:
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    outputs:
+      skip_build: ${{ steps.pr_info.outputs.skip_build }}
+    steps:
+      - name: Get PR info
+        id: pr_info
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_TITLE=$(gh api /repos/${{ github.repository }}/commits/${{ github.sha }}/pulls --jq '.[0].title')
+          if [[ "$PR_TITLE" == *"[skip_build]"* ]]; then
+            echo "skip_build=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip_build=false" >> $GITHUB_OUTPUT
+          fi
+
   tag:
+    needs: check_pr
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     outputs:
@@ -41,10 +60,11 @@ jobs:
           fi
 
   docker:
-    needs: tag
+    needs: [check_pr, tag]
     if: |
-      !contains(github.event.pull_request.title, '[skip_build]') &&
-      (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'))
+      needs.check_pr.outputs.skip_build != 'true' &&
+      github.event_name == 'push' && 
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
