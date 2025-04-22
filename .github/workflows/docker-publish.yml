@@ -2,6 +2,9 @@ name: Build & Publish Multi-Arch Docker Image
 
 on:
   push:
+    branches:
+      - main
+      - master
     tags:
       - 'v*.*.*'
   workflow_dispatch:
@@ -12,6 +15,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version from changelog
+        id: version
+        run: |
+          VERSION=$(grep -A1 "Version " README.md | head -n1 | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "latest")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create and push tag
+        run: |
+          if [ "${{ steps.version.outputs.version }}" != "latest" ]; then
+            git tag -f "v${{ steps.version.outputs.version }}"
+            git push origin "v${{ steps.version.outputs.version }}" --force
+          fi
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -25,12 +43,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Extract version from tag
-        id: get_version
-        run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -40,4 +52,4 @@ jobs:
           push: true
           tags: |
             solidpixel/uhf-server:latest
-            solidpixel/uhf-server:${{ steps.get_version.outputs.version }}
+            solidpixel/uhf-server:${{ steps.version.outputs.version }}
