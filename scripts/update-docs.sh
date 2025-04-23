@@ -3,6 +3,9 @@
 # Source versions
 source "$(dirname "$0")/../versions.env"
 
+# Generate Docker image version
+DOCKER_IMAGE_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
+
 # Path to README
 README_PATH="$(dirname "$0")/../README.md"
 

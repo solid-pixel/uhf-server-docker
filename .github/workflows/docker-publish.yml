@@ -50,8 +50,12 @@ jobs:
         run: |
           # Source versions from versions.env
           source versions.env
+          
+          # Generate Docker image version
+          DOCKER_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
+          
           echo "repo_version=$REPO_VERSION" >> $GITHUB_OUTPUT
-          echo "docker_version=$DOCKER_IMAGE_VERSION" >> $GITHUB_OUTPUT
+          echo "docker_version=$DOCKER_VERSION" >> $GITHUB_OUTPUT
 
       - name: Update documentation
         run: |
@@ -97,7 +101,10 @@ jobs:
         run: |
           # Source versions from versions.env
           source versions.env
-          echo "docker_version=$DOCKER_IMAGE_VERSION" >> $GITHUB_OUTPUT
+          
+          # Generate Docker image version
+          DOCKER_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
+          echo "docker_version=$DOCKER_VERSION" >> $GITHUB_OUTPUT
 
       - name: Build and push
         uses: docker/build-push-action@v5
