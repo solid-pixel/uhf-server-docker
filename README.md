@@ -11,9 +11,8 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 
 ## ✨ Features
 
-- Fully self-hosted UHF server
-- UHF Server version 1.2.0 (https://github.com/swapplications/uhf-server-dist)
-- FFmpeg 7.0.2
+- Fully containerized [UHF Server](https://github.com/swapplications/uhf-server-dist)
+- FFmpeg
 - Docker + Compose setup (no system install required)
 - Persistent volume for recordings
 - Multi-arch support (amd64, arm64)
