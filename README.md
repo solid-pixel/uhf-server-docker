@@ -1,8 +1,8 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.2.2-purple.svg)](#changelog)
+[![Repo](https://img.shields.io/badge/repo-1.2.3-purple.svg)](#changelog)
 [![UHF Server](https://img.shields.io/badge/uhf_server-1.2.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
-[![Updated](https://img.shields.io/badge/updated-2025--04--22-blue.svg)](#changelog)
+[![Updated](https://img.shields.io/badge/updated-2025--04--23-blue.svg)](#changelog)
 
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up`.
 
@@ -89,6 +89,14 @@ MIT — do what you want, no warranty
 <!-- Add your changes below. Most recent at the top. -->
 
 <details open>
+<summary><strong>Version 1.2.3</strong> – 2025-04-23</summary>
+
+#### Docker Changes
+- Updated FFmpeg to version 7.0.2
+- Built FFmpeg from source with x264 and x265 support
+</details>
+
+<details>
 <summary><strong>Version 1.2.2</strong> – 2025-04-22</summary>
 
 #### Repository Changes
