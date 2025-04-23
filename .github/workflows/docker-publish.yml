@@ -36,8 +36,8 @@ jobs:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     outputs:
-      uhf_version: ${{ steps.version.outputs.uhf_version }}
-      ffmpeg_version: ${{ steps.version.outputs.ffmpeg_version }}
+      repo_version: ${{ steps.version.outputs.repo_version }}
+      docker_version: ${{ steps.version.outputs.docker_version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,25 +45,28 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get versions
+      - name: Get version
         id: version
         run: |
-          # Get UHF version from badge in README.md
-          UHF_VERSION=$(grep "uhf_server-" README.md | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "latest")
-          
-          # Get FFmpeg version from badge in README.md
-          FFMPEG_VERSION=$(grep "ffmpeg-" README.md | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "")
-          
-          echo "uhf_version=$UHF_VERSION" >> $GITHUB_OUTPUT
-          echo "ffmpeg_version=$FFMPEG_VERSION" >> $GITHUB_OUTPUT
+          # Source versions from versions.env
+          source versions.env
+          echo "repo_version=$REPO_VERSION" >> $GITHUB_OUTPUT
+          echo "docker_version=$DOCKER_IMAGE_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update documentation
+        run: |
+          ./scripts/update-docs.sh
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add README.md
+          git commit -m "docs: Update versions in README [skip_build]" || true
+          git push
           
       - name: Create and push tag
         run: |
-          if [ "${{ steps.version.outputs.uhf_version }}" != "latest" ]; then
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git config --global user.name "github-actions[bot]"
-            git tag -f "v${{ steps.version.outputs.uhf_version }}-ffmpeg${{ steps.version.outputs.ffmpeg_version }}"
-            git push origin "v${{ steps.version.outputs.uhf_version }}-ffmpeg${{ steps.version.outputs.ffmpeg_version }}" --force
+          if [ "${{ steps.version.outputs.repo_version }}" != "latest" ]; then
+            git tag -f "v${{ steps.version.outputs.repo_version }}"
+            git push origin "v${{ steps.version.outputs.repo_version }}" --force
           fi
 
   docker:
@@ -76,9 +79,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -92,6 +92,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Get version
+        id: version
+        run: |
+          # Source versions from versions.env
+          source versions.env
+          echo "docker_version=$DOCKER_IMAGE_VERSION" >> $GITHUB_OUTPUT
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -101,4 +108,7 @@ jobs:
           push: true
           tags: |
             solidpixel/uhf-server:latest
-            solidpixel/uhf-server:${{ needs.tag.outputs.uhf_version }}-ffmpeg${{ needs.tag.outputs.ffmpeg_version }}
+            solidpixel/uhf-server:${{ steps.version.outputs.docker_version }}
+          build-args: |
+            UHF_VERSION=${{ env.UHF_VERSION }}
+            FFMPEG_VERSION=${{ env.FFMPEG_VERSION }}
