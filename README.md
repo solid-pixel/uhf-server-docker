@@ -75,4 +75,6 @@ MIT — do what you want, no warranty
 
 ---
 
+## 🕧 Changelog
+
 See [CHANGELOG.md](CHANGELOG.md) for version history.
