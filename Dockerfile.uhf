@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     libva-dev libvdpau-dev libvorbis-dev libxcb1-dev \
     libxcb-shm0-dev libxcb-xfixes0-dev meson ninja-build \
     texinfo wget yasm zlib1g-dev libx264-dev libx265-dev \
-    python3 python3-pip curl bash unzip \
+    python3 python3-pip python3-venv curl bash unzip \
     && rm -rf /var/lib/apt/lists/*
 
 # Build FFmpeg 7 from source
@@ -35,7 +35,9 @@ RUN mv /usr/bin/ffmpeg /usr/bin/ffmpeg.bak || true \
 # Define a fake sudo so the script doesn't break
 RUN echo '#!/bin/bash\n"$@"' > /usr/local/bin/sudo && chmod +x /usr/local/bin/sudo
 
-# Install UHF server
+# Set up Python virtual environment and install UHF server
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 RUN pip3 install uhf-server==1.2.0
 
 # Create directory for recordings and database
