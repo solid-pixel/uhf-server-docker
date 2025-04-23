@@ -1,9 +1,9 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.2.3-purple.svg)](#changelog)
+[![Repo](https://img.shields.io/badge/repo-1.2.3-purple.svg)](CHANGELOG.md)
 [![UHF Server](https://img.shields.io/badge/uhf_server-1.2.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
 [![FFmpeg](https://img.shields.io/badge/ffmpeg-7.0.2-green.svg)](https://ffmpeg.org/)
-[![Updated](https://img.shields.io/badge/updated-2025--04--23-blue.svg)](#changelog)
+[![Updated](https://img.shields.io/badge/updated-2025--04--23-blue.svg)](CHANGELOG.md)
 
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up`.
 
@@ -75,60 +75,4 @@ MIT — do what you want, no warranty
 
 ---
 
-## 📝 Changelog
-
-<!-- Add your changes below. Most recent at the top. -->
-
-<details open>
-<summary><strong>Version 1.2.3</strong> – 2025-04-23</summary>
-
-#### Docker Changes
-- Updated FFmpeg to version 7.0.2
-</details>
-
-<details>
-<summary><strong>Version 1.2.0</strong> – 2025-04-22</summary>
-
-#### Repository Changes
-- Initial release with UHF Server 1.2.0
-- Added docker-compose.yml with latest tag
-- Added GitHub Actions workflow for automated builds
-</details>
-
-<details>
-<summary><strong>Version 1.1.2</strong> – 2025-04-22</summary>
-
-#### Repository Changes
-- Fixed GitHub Actions permissions for automated releases
-</details>
-
-<details>
-<summary><strong>Version 1.1.1</strong> – 2025-04-22</summary>
-
-#### Docker Image Changes
-- Added multi-architecture support (amd64, arm64)
-- Improved platform compatibility for different CPU architectures
-
-#### Repository Changes
-- Added GitHub Actions workflow for multi-arch builds
-- Updated documentation with architecture support info
-</details>
-
-<details>
-<summary><strong>Version 1.1.0</strong> – 2025-04-21</summary>
-
-#### Docker Image Changes
-- Published image to Docker Hub (`solidpixel/uhf-server:1.1.0`)
-
-#### Repository Changes
-- Added Docker Hub run instructions to README
-- Switched to environment-based configuration (API_HOST, API_PORT, etc.)
-- Improved documentation with customization options
-- Restructured README for better clarity
-</details>
-
-<details>
-<summary><strong>Version 1.0.0</strong></summary>
-
-Initial release
-</details>
+See [CHANGELOG.md](CHANGELOG.md) for version history.
