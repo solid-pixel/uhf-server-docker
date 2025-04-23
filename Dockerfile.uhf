@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM debian:bookworm-slim
 
 # Install dependencies for FFmpeg and UHF server
 RUN apt-get update && apt-get install -y \
@@ -7,10 +7,7 @@ RUN apt-get update && apt-get install -y \
     libva-dev libvdpau-dev libvorbis-dev libxcb1-dev \
     libxcb-shm0-dev libxcb-xfixes0-dev meson ninja-build \
     texinfo wget yasm zlib1g-dev libx264-dev libx265-dev \
-    python3 python3-pip \
-    curl \
-    bash \
-    unzip \
+    python3 python3-pip curl bash unzip \
     && rm -rf /var/lib/apt/lists/*
 
 # Build FFmpeg 7 from source
@@ -35,6 +32,9 @@ RUN cd /usr/local/src \
 RUN mv /usr/bin/ffmpeg /usr/bin/ffmpeg.bak || true \
     && ln -s /usr/local/bin/ffmpeg /usr/bin/ffmpeg
 
+# Define a fake sudo so the script doesn't break
+RUN echo '#!/bin/bash\n"$@"' > /usr/local/bin/sudo && chmod +x /usr/local/bin/sudo
+
 # Install UHF server
 RUN pip3 install uhf-server==1.2.0
 
@@ -46,9 +46,6 @@ WORKDIR /var/lib/uhf-server
 
 # Expose port
 EXPOSE 8000
-
-# Define a fake sudo so the script doesn't break
-RUN echo '#!/bin/bash\n"$@"' > /usr/local/bin/sudo && chmod +x /usr/local/bin/sudo
 
 # Start UHF server
 CMD ["uhf-server"]

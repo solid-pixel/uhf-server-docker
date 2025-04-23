@@ -36,7 +36,8 @@ jobs:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.version.outputs.version }}
+      uhf_version: ${{ steps.version.outputs.uhf_version }}
+      ffmpeg_version: ${{ steps.version.outputs.ffmpeg_version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,19 +45,21 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get version from changelog
+      - name: Get UHF version
         id: version
         run: |
-          VERSION=$(grep -A1 "Version " README.md | head -n1 | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "latest")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
+          UHF_VERSION=$(grep -A1 "Version " README.md | head -n1 | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "latest")
+          FFMPEG_VERSION=$(grep "git checkout n" Dockerfile.uhf | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "")
+          echo "uhf_version=$UHF_VERSION" >> $GITHUB_OUTPUT
+          echo "ffmpeg_version=$FFMPEG_VERSION" >> $GITHUB_OUTPUT
+          
       - name: Create and push tag
         run: |
-          if [ "${{ steps.version.outputs.version }}" != "latest" ]; then
+          if [ "${{ steps.version.outputs.uhf_version }}" != "latest" ]; then
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             git config --global user.name "github-actions[bot]"
-            git tag -f "v${{ steps.version.outputs.version }}"
-            git push origin "v${{ steps.version.outputs.version }}" --force
+            git tag -f "v${{ steps.version.outputs.uhf_version }}-ffmpeg${{ steps.version.outputs.ffmpeg_version }}"
+            git push origin "v${{ steps.version.outputs.uhf_version }}-ffmpeg${{ steps.version.outputs.ffmpeg_version }}" --force
           fi
 
   docker:
@@ -94,4 +97,4 @@ jobs:
           push: true
           tags: |
             solidpixel/uhf-server:latest
-            solidpixel/uhf-server:${{ needs.tag.outputs.version }}
+            solidpixel/uhf-server:${{ needs.tag.outputs.uhf_version }}-ffmpeg${{ needs.tag.outputs.ffmpeg_version }}

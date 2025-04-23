@@ -1,7 +1,8 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.2.3-purple.svg)](#changelog)
+[![Repo](https://img.shields.io/badge/repo-1.2.0-ffmpeg7.0.2-purple.svg)](#changelog)
 [![UHF Server](https://img.shields.io/badge/uhf_server-1.2.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
+[![FFmpeg](https://img.shields.io/badge/ffmpeg-7.0.2-blue.svg)](https://ffmpeg.org/)
 [![Updated](https://img.shields.io/badge/updated-2025--04--23-blue.svg)](#changelog)
 
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up`.
@@ -11,11 +12,14 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 ## ✨ Features
 
 - Fully self-hosted UHF server
+- UHF Server version 1.2.0
+- FFmpeg 7.0.2 with x264 and x265 support
 - `uhf-server` script bundled in (https://github.com/swapplications/uhf-server-dist)
 - Docker + Compose setup (no system install required)
-- `unzip` and `ffmpeg` bundled in
+- `unzip` bundled in
 - Persistent volume for recordings
-- Supports multiple architectures (amd64, arm64)
+- Multi-arch support (amd64, arm64)
+- Automatic updates
 
 ---
 
@@ -89,35 +93,21 @@ MIT — do what you want, no warranty
 <!-- Add your changes below. Most recent at the top. -->
 
 <details open>
-<summary><strong>Version 1.2.3</strong> – 2025-04-23</summary>
+<summary><strong>Version 1.2.0-ffmpeg7.0.2</strong> – 2025-04-23</summary>
 
 #### Docker Changes
 - Updated FFmpeg to version 7.0.2
 - Built FFmpeg from source with x264 and x265 support
-</details>
-
-<details>
-<summary><strong>Version 1.2.2</strong> – 2025-04-22</summary>
-
-#### Repository Changes
-- Fixed GitHub Actions workflow for automated releases
-</details>
-
-<details>
-<summary><strong>Version 1.2.1</strong> – 2025-04-22</summary>
-
-#### Repository Changes
-- Updated docker-compose.yml to use latest tag
+- Switched back to Debian base image for smaller size
 </details>
 
 <details>
 <summary><strong>Version 1.2.0</strong> – 2025-04-22</summary>
 
-#### Dependencies
-- Updated UHF server to v1.2.0
-
 #### Repository Changes
-- Aligned versioning scheme with UHF server version
+- Initial release with UHF Server 1.2.0
+- Added docker-compose.yml with latest tag
+- Added GitHub Actions workflow for automated builds
 </details>
 
 <details>
