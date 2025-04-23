@@ -27,14 +27,14 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 
 ---
 
-<blockquote>
-<sub>
-⚠️ <strong>Disclaimer:</strong> This Docker wrapper is <em>not officially developed or maintained</em> by Swapplications (the creators of UHF Server). I'm not affiliated with them — I just built this to make deployment easier for the community.
-
-I do <strong>not</strong> maintain the <code>uhf-server</code> script itself — only the Docker setup.<br>
-If you run into issues with the actual recording logic or the server code, you'll need to contact the UHF devs directly.
-</sub>
-</blockquote>
+> ⚠️ **Disclaimer:** 
+This Docker wrapper is _not officially developed or maintained_ by Swapplications (the creators of UHF Server).  
+> I'm not affiliated with them — I just built this to make deployment easier for the community.  
+>  
+> I do **not** maintain the `uhf-server` script itself — only the Docker setup.  
+> If you run into issues with the actual recording logic or the server code, you'll need to contact the UHF devs directly.  
+>  
+> For bugs, suggestions, or Docker-related issues, please **open an Issue or PR on GitHub**. Reddit and Discord DMs won’t be monitored.
 
 ---
 
