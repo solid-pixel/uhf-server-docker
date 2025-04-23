@@ -32,9 +32,17 @@ This project uses semantic versioning with the following structure:
    ```bash
    ./scripts/update-docs.sh
    ```
-   This will automatically update the README badges and changelog.
+   This will:
+   - Update the version badges in README.md
+   - Add a new changelog entry if `REPO_VERSION` has changed
+   - Generate a new changelog entry with:
+     - Current date
+     - UHF server version update
+     - FFmpeg version update
 
-3. Commit your changes with a descriptive message:
+3. Review the changes in README.md and modify the changelog entry if needed.
+
+4. Commit your changes with a descriptive message:
    ```bash
    git add .
    git commit -m "[1.2.3] Your descriptive message"
@@ -64,17 +72,29 @@ This project uses semantic versioning with the following structure:
 3. Add appropriate labels
 4. Reference any related issues
 
-## Commit Messages
+## Commit Messages and CI/CD
 
+### Format
 Format your commit messages as follows:
 - For version updates: `[1.2.3] Update FFmpeg to 7.0.2`
 - For documentation: `docs: Update installation guide`
 - For build changes: `build: Update Dockerfile dependencies`
 - For general changes: `chore: Update .gitignore`
 
-Add `[skip_build]` to skip CI/CD pipeline:
+### CI/CD Control
+Add `[skip_build]` to your commit message to skip the CI/CD pipeline. This is useful when:
+- Making documentation-only changes
+- Updating the changelog
+- Making other changes that don't require rebuilding the Docker image
+
+Examples:
 ```bash
-git commit -m "docs: Update README [skip_build]"
+# Changes that need Docker rebuild:
+git commit -m "[1.2.3] Update FFmpeg to 7.0.2"
+
+# Changes that don't need Docker rebuild:
+git commit -m "docs: Update installation guide [skip_build]"
+git commit -m "chore: Fix typo in changelog [skip_build]"
 ```
 
 ## Need Help?
