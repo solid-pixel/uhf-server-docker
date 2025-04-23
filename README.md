@@ -12,14 +12,11 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 ## ✨ Features
 
 - Fully self-hosted UHF server
-- UHF Server version 1.2.0
+- UHF Server version 1.2.0 (https://github.com/swapplications/uhf-server-dist)
 - FFmpeg 7.0.2
-- `uhf-server` script bundled in (https://github.com/swapplications/uhf-server-dist)
 - Docker + Compose setup (no system install required)
-- `unzip` bundled in
 - Persistent volume for recordings
 - Multi-arch support (amd64, arm64)
-- Automatic updates
 
 ---
 
@@ -49,16 +46,6 @@ That's it! No building required.
 
 ---
 
-## 📁 Folder Structure
-
-```
-uhf-server-docker/
-├── docker-compose.yml      # Container config (uses pre-built image)
-└── uhf-data/               # Persistent recordings & database
-```
-
----
-
 ## ⚙️ Customization
 
 The following environment variables can be configured in `docker-compose.yml`:
@@ -79,6 +66,7 @@ You can also customize:
 
 - [UHF Server](https://www.uhfapp.com) by Swapplications
 - Docker wrapper by [Alessandro Benassi](https://github.com/solid-pixel)
+- All the Discord legends that helped me test this
 
 ---
 
