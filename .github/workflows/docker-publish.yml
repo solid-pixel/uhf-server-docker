@@ -45,11 +45,15 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get UHF version
+      - name: Get versions
         id: version
         run: |
-          UHF_VERSION=$(grep -A1 "Version " README.md | head -n1 | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "latest")
+          # Get UHF version from badge in README.md
+          UHF_VERSION=$(grep "uhf_server-" README.md | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "latest")
+          
+          # Get FFmpeg version from git checkout
           FFMPEG_VERSION=$(grep "git checkout n" Dockerfile.uhf | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "")
+          
           echo "uhf_version=$UHF_VERSION" >> $GITHUB_OUTPUT
           echo "ffmpeg_version=$FFMPEG_VERSION" >> $GITHUB_OUTPUT
           
