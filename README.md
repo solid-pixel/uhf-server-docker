@@ -1,8 +1,9 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.2.2-purple.svg)](#changelog)
+[![Repo](https://img.shields.io/badge/repo-1.2.3-purple.svg)](CHANGELOG.md)
 [![UHF Server](https://img.shields.io/badge/uhf_server-1.2.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
-[![Updated](https://img.shields.io/badge/updated-2025--04--22-blue.svg)](#changelog)
+[![FFmpeg](https://img.shields.io/badge/ffmpeg-7.0.2-green.svg)](https://ffmpeg.org/)
+[![Updated](https://img.shields.io/badge/updated-2025--04--23-blue.svg)](CHANGELOG.md)
 
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up`.
 
@@ -10,12 +11,12 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 
 ## ✨ Features
 
-- Fully self-hosted UHF server
-- `uhf-server` script bundled in (https://github.com/swapplications/uhf-server-dist)
+- Fully containerized [UHF Server](https://github.com/swapplications/uhf-server-dist)
+- FFmpeg
 - Docker + Compose setup (no system install required)
-- `unzip` and `ffmpeg` bundled in
 - Persistent volume for recordings
-- Supports multiple architectures (amd64, arm64)
+- Multi-arch support (amd64, arm64)
+- Container health monitoring
 
 ---
 
@@ -45,16 +46,6 @@ That's it! No building required.
 
 ---
 
-## 📁 Folder Structure
-
-```
-uhf-server-docker/
-├── docker-compose.yml      # Container config (uses pre-built image)
-└── uhf-data/               # Persistent recordings & database
-```
-
----
-
 ## ⚙️ Customization
 
 The following environment variables can be configured in `docker-compose.yml`:
@@ -68,6 +59,7 @@ The following environment variables can be configured in `docker-compose.yml`:
 You can also customize:
 - **Storage location:** adjust the `volumes:` path in `docker-compose.yml`
 - **Auto-restart:** enabled via `restart: unless-stopped` in `docker-compose.yml`
+- **Health checks:** container health is monitored every 30s via `/server/stats` endpoint
 
 ---
 
@@ -75,6 +67,7 @@ You can also customize:
 
 - [UHF Server](https://www.uhfapp.com) by Swapplications
 - Docker wrapper by [Alessandro Benassi](https://github.com/solid-pixel)
+- All the Discord legends that helped me test this
 
 ---
 
@@ -84,68 +77,6 @@ MIT — do what you want, no warranty
 
 ---
 
-## 📝 Changelog
+## 🕧 Changelog
 
-<!-- Add your changes below. Most recent at the top. -->
-
-<details open>
-<summary><strong>Version 1.2.2</strong> – 2025-04-22</summary>
-
-#### Repository Changes
-- Fixed GitHub Actions workflow for automated releases
-</details>
-
-<details>
-<summary><strong>Version 1.2.1</strong> – 2025-04-22</summary>
-
-#### Repository Changes
-- Updated docker-compose.yml to use latest tag
-</details>
-
-<details>
-<summary><strong>Version 1.2.0</strong> – 2025-04-22</summary>
-
-#### Dependencies
-- Updated UHF server to v1.2.0
-
-#### Repository Changes
-- Aligned versioning scheme with UHF server version
-</details>
-
-<details>
-<summary><strong>Version 1.1.2</strong> – 2025-04-22</summary>
-
-#### Repository Changes
-- Fixed GitHub Actions permissions for automated releases
-</details>
-
-<details>
-<summary><strong>Version 1.1.1</strong> – 2025-04-22</summary>
-
-#### Docker Image Changes
-- Added multi-architecture support (amd64, arm64)
-- Improved platform compatibility for different CPU architectures
-
-#### Repository Changes
-- Added GitHub Actions workflow for multi-arch builds
-- Updated documentation with architecture support info
-</details>
-
-<details>
-<summary><strong>Version 1.1.0</strong> – 2025-04-21</summary>
-
-#### Docker Image Changes
-- Published image to Docker Hub (`solidpixel/uhf-server:1.1.0`)
-
-#### Repository Changes
-- Added Docker Hub run instructions to README
-- Switched to environment-based configuration (API_HOST, API_PORT, etc.)
-- Improved documentation with customization options
-- Restructured README for better clarity
-</details>
-
-<details>
-<summary><strong>Version 1.0.0</strong></summary>
-
-Initial release
-</details>
+See [CHANGELOG.md](CHANGELOG.md) for version history.

@@ -36,7 +36,8 @@ jobs:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.version.outputs.version }}
+      repo_version: ${{ steps.version.outputs.repo_version }}
+      docker_version: ${{ steps.version.outputs.docker_version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,19 +45,23 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get version from changelog
+      - name: Get version
         id: version
         run: |
-          VERSION=$(grep -A1 "Version " README.md | head -n1 | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "latest")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-
+          # Source versions from versions.env
+          source .dev/versions.env
+          
+          # Generate Docker image version
+          DOCKER_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
+          
+          echo "repo_version=$REPO_VERSION" >> $GITHUB_OUTPUT
+          echo "docker_version=$DOCKER_VERSION" >> $GITHUB_OUTPUT
+          
       - name: Create and push tag
         run: |
-          if [ "${{ steps.version.outputs.version }}" != "latest" ]; then
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git config --global user.name "github-actions[bot]"
-            git tag -f "v${{ steps.version.outputs.version }}"
-            git push origin "v${{ steps.version.outputs.version }}" --force
+          if [ "${{ steps.version.outputs.repo_version }}" != "latest" ]; then
+            git tag -f "v${{ steps.version.outputs.repo_version }}"
+            git push origin "v${{ steps.version.outputs.repo_version }}" --force
           fi
 
   docker:
@@ -69,9 +74,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -85,6 +87,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Get version
+        id: version
+        run: |
+          # Source versions from versions.env
+          source .dev/versions.env
+          
+          # Generate Docker image version
+          DOCKER_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
+          echo "docker_version=$DOCKER_VERSION" >> $GITHUB_OUTPUT
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -94,4 +106,7 @@ jobs:
           push: true
           tags: |
             solidpixel/uhf-server:latest
-            solidpixel/uhf-server:${{ needs.tag.outputs.version }}
+            solidpixel/uhf-server:${{ steps.version.outputs.docker_version }}
+          build-args: |
+            UHF_VERSION=${{ env.UHF_VERSION }}
+            FFMPEG_VERSION=${{ env.FFMPEG_VERSION }}

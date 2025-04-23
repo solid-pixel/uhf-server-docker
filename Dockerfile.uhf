@@ -1,21 +1,52 @@
 FROM debian:bookworm-slim
 
-# Install dependencies
+# Install dependencies for FFmpeg and UHF server
 RUN apt-get update && apt-get install -y \
-    curl \
-    bash \
-    ffmpeg \
-    unzip \
+    autoconf automake build-essential cmake git libtool pkg-config \
+    libass-dev libfreetype6-dev libgnutls28-dev libsdl2-dev \
+    libva-dev libvdpau-dev libvorbis-dev libxcb1-dev \
+    libxcb-shm0-dev libxcb-xfixes0-dev meson ninja-build \
+    texinfo wget yasm zlib1g-dev libx264-dev libx265-dev \
+    python3 python3-pip python3-venv curl bash unzip \
     && rm -rf /var/lib/apt/lists/*
+
+# Build FFmpeg 7 from source
+RUN cd /usr/local/src \
+    && git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg \
+    && cd ffmpeg \
+    && git checkout n7.0.2 \
+    && ./configure \
+        --prefix=/usr/local \
+        --enable-gpl \
+        --enable-nonfree \
+        --enable-libx264 \
+        --enable-libx265 \
+        --enable-shared \
+    && make -j"$(nproc)" \
+    && make install \
+    && ldconfig \
+    && cd / \
+    && rm -rf /usr/local/src/ffmpeg
+
+# Make FFmpeg 7 the default
+RUN mv /usr/bin/ffmpeg /usr/bin/ffmpeg.bak || true \
+    && ln -s /usr/local/bin/ffmpeg /usr/bin/ffmpeg
 
 # Define a fake sudo so the script doesn't break
 RUN echo '#!/bin/bash\n"$@"' > /usr/local/bin/sudo && chmod +x /usr/local/bin/sudo
 
-# Install UHF CLI
+# Install UHF server
 RUN curl -sL https://link.uhfapp.com/setup.sh | bash
 
-WORKDIR /data
+# Create directory for recordings and database
+RUN mkdir -p /var/lib/uhf-server/recordings
 
-RUN mkdir -p /var/lib/uhf-server
+# Set working directory
+WORKDIR /var/lib/uhf-server
 
+# Add healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
+    CMD curl -f "http://localhost:8000/server/stats" || exit 1
+
+# Start UHF server
 CMD ["bash"]

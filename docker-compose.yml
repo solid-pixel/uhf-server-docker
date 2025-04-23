@@ -2,17 +2,21 @@ version: '3.8'
 
 services:
   uhf-server:
-    image: solidpixel/uhf-server:latest
+    image: solidpixel/uhf-server:1.2.0-ffmpeg7.0.2
     container_name: uhf-server
     restart: unless-stopped
     volumes:
       - ./uhf-data:/var/lib/uhf-server
-    working_dir: /uhf-data
-    network_mode: host
-    environment:
-      - API_HOST=0.0.0.0
-      - API_PORT=8000
-      - RECORDINGS_DIR=/var/lib/uhf-server/recordings
-      - DB_PATH=/var/lib/uhf-server/db.json
-      - LOG_LEVEL=INFO
+    ports:
+      - 8000:8000 # host:container
+
+    # Optional environment variables:
+    # Uncomment to override defaults
+    # environment:
+    #   - API_HOST=0.0.0.0          # bind to all interfaces
+    #   - API_PORT=8000             # default API port - changing this might break healthchecks
+    #   - RECORDINGS_DIR=/var/lib/uhf-server/recordings  # location for recordings
+    #   - DB_PATH=/var/lib/uhf-server/db.json            # path to database file
+    #   - LOG_LEVEL=INFO            # (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+
     command: ["uhf-server"]
