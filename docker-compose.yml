@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   uhf-server:
-    image: solidpixel/uhf-server:latest
+    image: solidpixel/uhf-server:1.2.0-ffmpeg7.0.2-test
     container_name: uhf-server
     restart: unless-stopped
     volumes:
