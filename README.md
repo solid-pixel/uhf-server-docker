@@ -5,7 +5,7 @@
 [![FFmpeg](https://img.shields.io/badge/ffmpeg-7.0.2-green.svg)](https://ffmpeg.org/)
 [![Updated](https://img.shields.io/badge/updated-2025--04--23-blue.svg)](CHANGELOG.md)
 
-Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up`.
+Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up` and visit port 8000 (or your custom port).
 
 ---
 
@@ -24,6 +24,17 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 
 - Docker
 - Docker Compose v2+
+
+---
+
+<blockquote>
+<sub>
+⚠️ <strong>Disclaimer:</strong> This Docker wrapper is <em>not officially developed or maintained</em> by Swapplications (the creators of UHF Server). I'm not affiliated with them — I just built this to make deployment easier for the community.
+
+I do <strong>not</strong> maintain the <code>uhf-server</code> script itself — only the Docker setup.<br>
+If you run into issues with the actual recording logic or the server code, you'll need to contact the UHF devs directly.
+</sub>
+</blockquote>
 
 ---
 
@@ -49,15 +60,15 @@ That's it! No building required.
 ## ⚙️ Customization
 
 The following environment variables can be configured in `docker-compose.yml`:
-
-- **API_HOST**: Server listen address (default: `0.0.0.0`)
-- **API_PORT**: Server port (default: `8000`)
-- **RECORDINGS_DIR**: Path to recordings inside container (default: `/var/lib/uhf-server/recordings`)
-- **DB_PATH**: Path to database file inside container (default: `/var/lib/uhf-server/db.json`)
-- **LOG_LEVEL**: Logging verbosity (default: `INFO`)
+- **API_HOST**: Bind to all interfaces (default: `0.0.0.0`)
+- **API_PORT**: Default API port inside container (default: `8000`) - changing this might break healthchecks
+- **RECORDINGS_DIR**: Location for recordings (default: `/var/lib/uhf-server/recordings`)
+- **DB_PATH**: Path to database file (default: `/var/lib/uhf-server/db.json`)
+- **LOG_LEVEL**: Logging verbosity (default: `INFO`) - (DEBUG, INFO, WARNING, ERROR, CRITICAL)
 
 You can also customize:
 - **Storage location:** adjust the `volumes:` path in `docker-compose.yml`
+- **Port mapping:** change `8000:8000` to `YOUR_PORT:8000` in `docker-compose.yml` to use a different external port
 - **Auto-restart:** enabled via `restart: unless-stopped` in `docker-compose.yml`
 - **Health checks:** container health is monitored every 30s via `/server/stats` endpoint
 
@@ -65,7 +76,7 @@ You can also customize:
 
 ## 👥 Credits
 
-- [UHF Server](https://www.uhfapp.com) by Swapplications
+- [UHF Server](https://www.uhfapp.com/server) by Swapplications
 - Docker wrapper by [Alessandro Benassi](https://github.com/solid-pixel)
 - All the Discord legends that helped me test this
 
