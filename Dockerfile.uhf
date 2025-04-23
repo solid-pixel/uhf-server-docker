@@ -44,8 +44,5 @@ RUN mkdir -p /var/lib/uhf-server/recordings
 # Set working directory
 WORKDIR /var/lib/uhf-server
 
-# Expose port
-EXPOSE 8000
-
 # Start UHF server
-CMD ["uhf-server"]
+CMD ["bash"]
