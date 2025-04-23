@@ -4,10 +4,11 @@
 source "$(dirname "$0")/../versions.env"
 
 # Generate Docker image version
-DOCKER_IMAGE_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
+DOCKER_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
 
-# Path to README
+# Path to README and docker-compose.yml
 README_PATH="$(dirname "$0")/../README.md"
+COMPOSE_PATH="$(dirname "$0")/../docker-compose.yml"
 
 # Function to update badge
 update_badge() {
@@ -21,7 +22,10 @@ update_badge() {
 update_badge "repo" "$REPO_VERSION" "blue"
 update_badge "uhf_server" "$UHF_VERSION" "blue"
 update_badge "ffmpeg" "$FFMPEG_VERSION" "blue"
-update_badge "docker" "$DOCKER_IMAGE_VERSION" "blue"
+update_badge "docker" "$DOCKER_VERSION" "blue"
+
+# Update docker-compose.yml version
+sed -i '' "s|solidpixel/uhf-server:[^[:space:]]*|solidpixel/uhf-server:${DOCKER_VERSION}-test|g" "$COMPOSE_PATH"
 
 # Update changelog if new version
 if ! grep -q "## Version ${REPO_VERSION}" "$README_PATH"; then

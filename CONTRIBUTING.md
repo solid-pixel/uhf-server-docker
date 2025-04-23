@@ -34,6 +34,7 @@ This project uses semantic versioning with the following structure:
    ```
    This will:
    - Update the version badges in README.md
+   - Update the Docker image version in docker-compose.yml
    - Add a new changelog entry if `REPO_VERSION` has changed
    - Generate a new changelog entry with:
      - Current date
