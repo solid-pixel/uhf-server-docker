@@ -59,7 +59,7 @@ The following environment variables can be configured in `docker-compose.yml`:
 You can also customize:
 - **Storage location:** adjust the `volumes:` path in `docker-compose.yml`
 - **Auto-restart:** enabled via `restart: unless-stopped` in `docker-compose.yml`
-- **Health checks:** container health is monitored every 30s via `/health` endpoint
+- **Health checks:** container health is monitored every 30s via `/server/stats` endpoint
 
 ---
 

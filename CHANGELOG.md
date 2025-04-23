@@ -8,7 +8,7 @@
 
 #### Docker Changes
 - Updated FFmpeg to version 7.0.2
-- Added container health monitoring via `/health` endpoint (built into image)
+- Added container health monitoring via `/server/stats` endpoint (built into image)
 
 ## Version 1.2.0 – 2025-04-22
 
