@@ -51,8 +51,8 @@ jobs:
           # Get UHF version from badge in README.md
           UHF_VERSION=$(grep "uhf_server-" README.md | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "latest")
           
-          # Get FFmpeg version from git checkout
-          FFMPEG_VERSION=$(grep "git checkout n" Dockerfile.uhf | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "")
+          # Get FFmpeg version from badge in README.md
+          FFMPEG_VERSION=$(grep "ffmpeg-" README.md | grep -oE "[0-9]+\.[0-9]+\.[0-9]+" || echo "")
           
           echo "uhf_version=$UHF_VERSION" >> $GITHUB_OUTPUT
           echo "ffmpeg_version=$FFMPEG_VERSION" >> $GITHUB_OUTPUT
