@@ -15,14 +15,13 @@ update_badge() {
     local name="$1"
     local version="$2"
     local color="$3"
-    sed -i '' "s|${name}-[^-]*-${color}|${name}-${version}-${color}|g" "$README_PATH"
+    sed -i '' "s|${name}-[^-]*-${color}\.svg|${name}-${version}-${color}.svg|g" "$README_PATH"
 }
 
 # Update badges
-update_badge "repo" "$REPO_VERSION" "blue"
-update_badge "uhf_server" "$UHF_VERSION" "blue"
-update_badge "ffmpeg" "$FFMPEG_VERSION" "blue"
-update_badge "docker" "$DOCKER_VERSION" "blue"
+update_badge "repo" "$REPO_VERSION" "purple"
+update_badge "uhf_server" "$UHF_VERSION" "orange"
+update_badge "ffmpeg" "$FFMPEG_VERSION" "green"
 
 # Update docker-compose.yml version
 sed -i '' "s|solidpixel/uhf-server:[^[:space:]]*|solidpixel/uhf-server:${DOCKER_VERSION}-test|g" "$COMPOSE_PATH"

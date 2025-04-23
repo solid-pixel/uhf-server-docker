@@ -1,6 +1,6 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.2.0-purple.svg)](#changelog)
+[![Repo](https://img.shields.io/badge/repo-1.2.3-purple.svg)](#changelog)
 [![UHF Server](https://img.shields.io/badge/uhf_server-1.2.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
 [![FFmpeg](https://img.shields.io/badge/ffmpeg-7.0.2-green.svg)](https://ffmpeg.org/)
 [![Updated](https://img.shields.io/badge/updated-2025--04--23-blue.svg)](#changelog)
