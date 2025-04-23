@@ -19,37 +19,20 @@ jobs:
     outputs:
       skip_build: ${{ steps.pr_info.outputs.skip_build }}
     steps:
-      - name: Get PR info
-        id: pr_info
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - id: pr_info
         run: |
-          PR_TITLE=$(gh api /repos/${{ github.repository }}/commits/${{ github.sha }}/pulls --jq '.[0].title')
-          if [[ "$PR_TITLE" == *"[skip_build]"* ]]; then
-            echo "skip_build=true" >> $GITHUB_OUTPUT
+          if [[ "${{ github.event.head_commit.message }}" =~ "\[skip_build\]" ]]; then
+            echo "skip_build=true" >> "$GITHUB_OUTPUT"
           else
-            echo "skip_build=false" >> $GITHUB_OUTPUT
-          fi
-
-  check_skip:
-    runs-on: ubuntu-latest
-    outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - id: skip_check
-        run: |
-          if git log -1 --pretty=%B | grep -q "\[skip_build\]"; then
-            echo "should_skip=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "should_skip=false" >> "$GITHUB_OUTPUT"
+            echo "skip_build=false" >> "$GITHUB_OUTPUT"
           fi
 
   tag:
     needs: check_pr
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    if: |
+      needs.check_pr.outputs.skip_build != 'true' &&
+      github.event_name == 'push' && 
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     outputs:
       repo_version: ${{ steps.version.outputs.repo_version }}
@@ -59,38 +42,30 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get version
+      - name: Get version info
         id: version
         run: |
-          # Source versions from versions.env
           source .dev/versions.env
-          
-          # Generate Docker image version
-          DOCKER_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
-          
-          echo "repo_version=$REPO_VERSION" >> $GITHUB_OUTPUT
-          echo "docker_version=$DOCKER_VERSION" >> $GITHUB_OUTPUT
-          
+          echo "repo_version=${REPO_VERSION}" >> "$GITHUB_OUTPUT"
+          echo "docker_version=${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}" >> "$GITHUB_OUTPUT"
+
       - name: Create and push tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ "${{ steps.version.outputs.repo_version }}" != "latest" ]; then
-            git tag -f "v${{ steps.version.outputs.repo_version }}"
-            git push origin "v${{ steps.version.outputs.repo_version }}" --force
-          fi
+          git tag -f "${{ steps.version.outputs.repo_version }}"
+          git push -f origin "${{ steps.version.outputs.repo_version }}"
 
   docker:
-    needs: [check_pr, check_skip, tag]
+    needs: tag
     if: |
       needs.check_pr.outputs.skip_build != 'true' &&
-      needs.check_skip.outputs.should_skip != 'true' &&
       github.event_name == 'push' && 
       (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -104,26 +79,21 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Get version
-        id: version
+      - name: Extract version info
         run: |
-          # Source versions from versions.env
           source .dev/versions.env
-          
-          # Generate Docker image version
-          DOCKER_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
-          echo "docker_version=$DOCKER_VERSION" >> $GITHUB_OUTPUT
+          echo "REPO_VERSION=${REPO_VERSION}" >> $GITHUB_ENV
+          echo "UHF_VERSION=${UHF_VERSION}" >> $GITHUB_ENV
+          echo "FFMPEG_VERSION=${FFMPEG_VERSION}" >> $GITHUB_ENV
 
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerfile.uhf
+          file: Dockerfile.uhf
           platforms: linux/amd64,linux/arm64
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: |
             solidpixel/uhf-server:latest
-            solidpixel/uhf-server:${{ steps.version.outputs.docker_version }}
-          build-args: |
-            UHF_VERSION=${{ env.UHF_VERSION }}
-            FFMPEG_VERSION=${{ env.FFMPEG_VERSION }}
+            solidpixel/uhf-server:${{ env.UHF_VERSION }}-ffmpeg${{ env.FFMPEG_VERSION }}
+            solidpixel/uhf-server:${{ env.UHF_VERSION }}-ffmpeg${{ env.FFMPEG_VERSION }}-${{ env.REPO_VERSION }}
