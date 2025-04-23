@@ -31,6 +31,22 @@ jobs:
             echo "skip_build=false" >> $GITHUB_OUTPUT
           fi
 
+  check_skip:
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: skip_check
+        run: |
+          if git log -1 --pretty=%B | grep -q "\[skip_build\]"; then
+            echo "should_skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
   tag:
     needs: check_pr
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
@@ -65,9 +81,10 @@ jobs:
           fi
 
   docker:
-    needs: [check_pr, tag]
+    needs: [check_pr, check_skip, tag]
     if: |
       needs.check_pr.outputs.skip_build != 'true' &&
+      needs.check_skip.outputs.should_skip != 'true' &&
       github.event_name == 'push' && 
       (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     runs-on: ubuntu-latest
