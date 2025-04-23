@@ -16,6 +16,7 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 - Docker + Compose setup (no system install required)
 - Persistent volume for recordings
 - Multi-arch support (amd64, arm64)
+- Container health monitoring
 
 ---
 
@@ -58,6 +59,7 @@ The following environment variables can be configured in `docker-compose.yml`:
 You can also customize:
 - **Storage location:** adjust the `volumes:` path in `docker-compose.yml`
 - **Auto-restart:** enabled via `restart: unless-stopped` in `docker-compose.yml`
+- **Health checks:** container health is monitored every 30s via `/health` endpoint
 
 ---
 

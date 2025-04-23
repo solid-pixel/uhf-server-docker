@@ -1,18 +1,14 @@
 # Changelog
 
 <!-- Add your changes below. Most recent at the top. -->
-## Version 1.2.4 – 2025-04-23
-
-#### Changes
-- Updated UHF server to version 1.2.1
-- Updated FFmpeg to version 7.0.3
-
-
-
 ## Version 1.2.3 – 2025-04-23
+
+#### ⚠️ Breaking Changes
+- Switched from host network mode to port mapping (8000:8000) to improve compatibility with non-Linux systems. If you were using a custom port, you'll need to update the `ports` section in docker-compose.yml
 
 #### Docker Changes
 - Updated FFmpeg to version 7.0.2
+- Added container health monitoring via `/health` endpoint (built into image)
 
 ## Version 1.2.0 – 2025-04-22
 
@@ -20,7 +16,6 @@
 - Initial release
 - Automated builds
 - Multi-arch support (amd64, arm64)
-- Automated version updates
 
 ## Version 1.1.2 – 2025-04-22
 
