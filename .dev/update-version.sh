@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source versions
-source "$(dirname "$0")/../versions.env"
+source "$(dirname "$0")/versions.env"
 
 # Generate Docker image version
 DOCKER_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
@@ -33,10 +33,10 @@ if ! grep -q "## Version ${REPO_VERSION}" "$README_PATH"; then
     TODAY=$(date +%Y-%m-%d)
     
     # Create new changelog entry
-    NEW_ENTRY="\n## Version ${REPO_VERSION} (${TODAY})\n\n- Updated UHF server to version ${UHF_VERSION}\n- Updated FFmpeg to version ${FFMPEG_VERSION}\n"
+    NEW_ENTRY="## Version ${REPO_VERSION} (${TODAY})\n\n- Updated UHF server to version ${UHF_VERSION}\n- Updated FFmpeg to version ${FFMPEG_VERSION}\n\n"
     
     # Insert after changelog header
-    sed -i '' "/# Changelog/a\\${NEW_ENTRY}" "$README_PATH"
+    awk -v entry="$NEW_ENTRY" '/# Changelog/{print;print entry;next}1' "$README_PATH" > "$README_PATH.tmp" && mv "$README_PATH.tmp" "$README_PATH"
 fi
 
 echo "Documentation updated successfully!"

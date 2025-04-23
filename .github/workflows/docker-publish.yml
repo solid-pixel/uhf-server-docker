@@ -49,22 +49,13 @@ jobs:
         id: version
         run: |
           # Source versions from versions.env
-          source versions.env
+          source .dev/versions.env
           
           # Generate Docker image version
           DOCKER_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
           
           echo "repo_version=$REPO_VERSION" >> $GITHUB_OUTPUT
           echo "docker_version=$DOCKER_VERSION" >> $GITHUB_OUTPUT
-
-      - name: Update documentation
-        run: |
-          ./scripts/update-docs.sh
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git add README.md
-          git commit -m "docs: Update versions in README [skip_build]" || true
-          git push
           
       - name: Create and push tag
         run: |
@@ -100,7 +91,7 @@ jobs:
         id: version
         run: |
           # Source versions from versions.env
-          source versions.env
+          source .dev/versions.env
           
           # Generate Docker image version
           DOCKER_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"

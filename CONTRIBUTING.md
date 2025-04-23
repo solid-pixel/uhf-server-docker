@@ -19,7 +19,7 @@ This project uses semantic versioning with the following structure:
 
 ### Updating Versions
 
-1. Edit `versions.env` to update the relevant versions:
+1. Edit `.dev/versions.env` to update the relevant versions:
    ```env
    REPO_VERSION=1.2.3          # Repository version
    UHF_VERSION=1.2.0          # UHF server version
@@ -28,22 +28,22 @@ This project uses semantic versioning with the following structure:
 
    The Docker image version will be automatically generated as `1.2.0-ffmpeg7.0.2`.
 
-2. Run the documentation update script:
+2. Preview and apply version changes:
    ```bash
-   ./scripts/update-docs.sh
+   ./.dev/update-version.sh
    ```
-   This will:
-   - Update the version badges in README.md
-   - Update the Docker image version in docker-compose.yml
+   This will update all version-related files:
+   - README.md badges
+   - docker-compose.yml image version
    - Add a new changelog entry if `REPO_VERSION` has changed
-   - Generate a new changelog entry with:
-     - Current date
-     - UHF server version update
-     - FFmpeg version update
 
-3. Review the changes in README.md and modify the changelog entry if needed.
+3. Review the changes:
+   ```bash
+   git diff README.md docker-compose.yml
+   ```
+   Make any needed adjustments to the changelog entry.
 
-4. Commit your changes with a descriptive message:
+4. Commit all changes together:
    ```bash
    git add .
    git commit -m "[1.2.3] Your descriptive message"
