@@ -11,43 +11,12 @@ Thank you for your interest in contributing to the UHF Server Docker project! Th
 
 ## Version Management
 
-This project uses semantic versioning with the following structure:
-- Repository version (e.g., 1.2.3): Used for releases and git tags
-- UHF server version (e.g., 1.2.0): Version of the UHF server being installed
-- FFmpeg version (e.g., 7.0.2): Version of FFmpeg being built
-- Docker image version: Automatically generated as `${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}`
+This project uses semantic versioning. Version numbers will be assigned by maintainers at merge time, so you don't need to update version numbers in your PR.
 
-### Updating Versions
-
-1. Edit `.dev/versions.env` to update the relevant versions:
-   ```env
-   REPO_VERSION=1.2.3          # Repository version
-   UHF_VERSION=1.2.0          # UHF server version
-   FFMPEG_VERSION=7.0.2       # FFmpeg version
-   ```
-
-   The Docker image version will be automatically generated as `1.2.0-ffmpeg7.0.2`.
-
-2. Preview and apply version changes:
-   ```bash
-   ./.dev/update-version.sh
-   ```
-   This will update all version-related files:
-   - README.md badges
-   - docker-compose.yml image version
-   - Add a new changelog entry if `REPO_VERSION` has changed
-
-3. Review the changes:
-   ```bash
-   git diff README.md docker-compose.yml
-   ```
-   Make any needed adjustments to the changelog entry.
-
-4. Commit all changes together:
-   ```bash
-   git add .
-   git commit -m "[1.2.3] Your descriptive message"
-   ```
+When submitting a PR:
+1. Document your changes in CHANGELOG.md under a temporary heading (e.g., "## Unreleased")
+2. Note any breaking changes in your PR description
+3. The maintainers will handle version bumps and changelog organization during merge
 
 ## Building and Testing
 
@@ -77,7 +46,6 @@ This project uses semantic versioning with the following structure:
 
 ### Format
 Format your commit messages as follows:
-- For version updates: `[1.2.3] Update FFmpeg to 7.0.2`
 - For documentation: `docs: Update installation guide`
 - For build changes: `build: Update Dockerfile dependencies`
 - For general changes: `chore: Update .gitignore`
@@ -91,7 +59,7 @@ Add `[skip_build]` to your commit message to skip the CI/CD pipeline. This is us
 Examples:
 ```bash
 # Changes that need Docker rebuild:
-git commit -m "[1.2.3] Update FFmpeg to 7.0.2"
+git commit -m "build: Update Dockerfile dependencies"
 
 # Changes that don't need Docker rebuild:
 git commit -m "docs: Update installation guide [skip_build]"
