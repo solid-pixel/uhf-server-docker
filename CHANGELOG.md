@@ -1,6 +1,17 @@
 # Changelog
 
 <!-- Add your changes below. Most recent at the top. -->
+## Version 1.2.4 – 2025-04-24
+
+#### Internal Changes
+> These changes only affect development and maintenance of the project. No action needed for end users.
+
+- Simplified release workflow with two scripts: `release.sh` and `build-docker.sh`
+- Moved UHF server installation directly into Dockerfile for better version control
+- Removed automated GitHub Actions workflow in favor of manual releases
+- Added version-specific UHF server installation (no longer using latest)
+- Added colored output and emojis to dev scripts for better UX
+
 ## Version 1.2.3 – 2025-04-23
 
 #### ⚠️ Breaking Changes
@@ -9,6 +20,7 @@
 #### Docker Changes
 - Updated FFmpeg to version 7.0.2
 - Added container health monitoring via `/server/stats` endpoint (built into image)
+- Now using version-locked UHF server builds instead of latest
 
 ## Version 1.2.0 – 2025-04-22
 
