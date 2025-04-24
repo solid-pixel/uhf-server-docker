@@ -1,6 +1,6 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.2.3-purple.svg)](CHANGELOG.md)
+[![Repo](https://img.shields.io/badge/repo-1.2.4-purple.svg)](CHANGELOG.md)
 [![UHF Server](https://img.shields.io/badge/uhf_server-1.2.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
 [![FFmpeg](https://img.shields.io/badge/ffmpeg-7.0.2-green.svg)](https://ffmpeg.org/)
 [![Updated](https://img.shields.io/badge/updated-2025--04--23-blue.svg)](CHANGELOG.md)
@@ -12,7 +12,7 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 ## ✨ Features
 
 - Fully containerized [UHF Server](https://github.com/swapplications/uhf-server-dist)
-- FFmpeg
+- Version-locked UHF server and FFmpeg builds
 - Docker + Compose setup (no system install required)
 - Persistent volume for recordings
 - Multi-arch support (amd64, arm64)
@@ -34,7 +34,7 @@ This Docker wrapper is _not officially developed or maintained_ by Swapplication
 > I do **not** maintain the `uhf-server` script itself — only the Docker setup.  
 > If you run into issues with the actual recording logic or the server code, you'll need to contact the UHF devs directly.  
 >  
-> For bugs, suggestions, or Docker-related issues, please **open an Issue or PR on GitHub**. Reddit and Discord DMs won’t be monitored.
+> For bugs, suggestions, or Docker-related issues, please **open an Issue or PR on GitHub**. Reddit and Discord DMs won't be monitored.
 
 ---
 

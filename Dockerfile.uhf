@@ -32,11 +32,35 @@ RUN cd /usr/local/src \
 RUN mv /usr/bin/ffmpeg /usr/bin/ffmpeg.bak || true \
     && ln -s /usr/local/bin/ffmpeg /usr/bin/ffmpeg
 
-# Define a fake sudo so the script doesn't break
-RUN echo '#!/bin/bash\n"$@"' > /usr/local/bin/sudo && chmod +x /usr/local/bin/sudo
-
-# Install UHF server
-RUN curl -sL https://link.uhfapp.com/setup.sh | bash
+# Install UHF server with specific version
+ARG UHF_VERSION
+RUN REPO="swapplications/uhf-server-dist" \
+    && INSTALL_DIR="/opt/uhf-server" \
+    && BIN_NAME="uhf-server" \
+    && ARCH=$(uname -m) \
+    && if [[ "$ARCH" == "x86_64" ]]; then \
+         PLATFORM="x64"; \
+       elif [[ "$ARCH" == "aarch64" ]]; then \
+         PLATFORM="arm64"; \
+       else \
+         echo "❌ Unsupported architecture: $ARCH" && exit 1; \
+       fi \
+    && echo "🔖 Installing version: $UHF_VERSION" \
+    && ASSET_FILENAME="UHF.Server-linux-${PLATFORM}-${UHF_VERSION}.zip" \
+    && ASSET_URL="https://github.com/$REPO/releases/download/${UHF_VERSION}/${ASSET_FILENAME}" \
+    && echo "📥 Downloading from: $ASSET_URL" \
+    && TMP_DIR=$(mktemp -d) \
+    && curl -L "$ASSET_URL" -o "$TMP_DIR/uhf-server.zip" \
+    && echo "📦 Unzipping..." \
+    && unzip -q "$TMP_DIR/uhf-server.zip" -d "$TMP_DIR/extracted" \
+    && echo "🚚 Installing to $INSTALL_DIR..." \
+    && rm -rf "$INSTALL_DIR" \
+    && mkdir -p "$INSTALL_DIR" \
+    && cp -r "$TMP_DIR/extracted/"* "$INSTALL_DIR" \
+    && ln -sf "$INSTALL_DIR/$BIN_NAME" /usr/local/bin/$BIN_NAME \
+    && chmod +x "$INSTALL_DIR/$BIN_NAME" \
+    && rm -rf "$TMP_DIR" \
+    && echo "✅ UHF Server $UHF_VERSION installed successfully!"
 
 # Create directory for recordings and database
 RUN mkdir -p /var/lib/uhf-server/recordings

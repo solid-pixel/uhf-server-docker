@@ -20,20 +20,38 @@ When submitting a PR:
 
 ## Building and Testing
 
-1. Build the Docker image locally:
-   ```bash
-   docker buildx build --platform linux/amd64,linux/arm64 -t solidpixel/uhf-server:test -f Dockerfile.uhf .
-   ```
+### Local Testing
+```bash
+# Build and run locally
+docker compose up --build
 
-2. Test the image:
-   ```bash
-   docker compose up -d
-   ```
+# Test the container
+curl http://localhost:8000/server/stats
+```
 
-3. Check FFmpeg version:
-   ```bash
-   docker compose exec uhf-server ffmpeg -version
-   ```
+### Production Releases
+
+The project uses two scripts for releases:
+
+```bash
+# 1. First update versions in .dev/versions.env
+vim .dev/versions.env
+
+# 2. Create release (updates docs, changelog, and creates git tag)
+./.dev/release.sh
+# The script will pause for you to edit the changelog
+
+# 3. Build and push Docker images (if needed)
+./.dev/build-docker.sh
+```
+
+The scripts handle different aspects of the release:
+- `release.sh` updates documentation, creates changelog entry, and creates git tag
+- `build-docker.sh` builds and pushes multi-arch Docker images
+
+The Docker images will be pushed to Docker Hub with these tags:
+- `solidpixel/uhf-server:latest`
+- `solidpixel/uhf-server:<UHF_VERSION>-ffmpeg<FFMPEG_VERSION>`
 
 ## Pull Request Guidelines
 
@@ -42,28 +60,23 @@ When submitting a PR:
 3. Add appropriate labels
 4. Reference any related issues
 
-## Commit Messages and CI/CD
+## Commit Messages
 
 ### Format
 Format your commit messages as follows:
 - For documentation: `docs: Update installation guide`
 - For build changes: `build: Update Dockerfile dependencies`
 - For general changes: `chore: Update .gitignore`
+- For features: `feat: Add new environment variable`
+- For fixes: `fix: Correct port mapping`
 
-### CI/CD Control
-Add `[skip_build]` to your commit message to skip the CI/CD pipeline. This is useful when:
-- Making documentation-only changes
-- Updating the changelog
-- Making other changes that don't require rebuilding the Docker image
-
-Examples:
+### Examples
 ```bash
 # Changes that need Docker rebuild:
 git commit -m "build: Update Dockerfile dependencies"
 
 # Changes that don't need Docker rebuild:
-git commit -m "docs: Update installation guide [skip_build]"
-git commit -m "chore: Fix typo in changelog [skip_build]"
+git commit -m "docs: Update installation guide"
 ```
 
 ## Need Help?
