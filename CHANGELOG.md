@@ -15,10 +15,10 @@
 #### Dev Changes
 - Dev: Support optional `DOCKER_REVISION` for patch-level image tags in `.dev/versions.env`
 - Dev: Updated `build-docker.sh` and `release.sh` to include `DOCKER_REVISION` in image versioning
+- Dev: Updated `build-docker.sh` to build and push multi-arch images automatically
 
 #### Documentation Changes
 - Updated README with optional recordings mount and healthcheck details
-- build-docker.sh now prompts to push images after build
 
 ## Version 1.2.4 – 2025-04-24
 

@@ -19,7 +19,7 @@ else
 fi
 
 # Build and push multi-arch image
-echo -e "\n${BLUE}🏗️  Building for ${YELLOW}amd64, arm64${BLUE} with version ${YELLOW}${IMAGE_TAG}${NC}..."
+echo -e "\n${BLUE}🏗️  Building and pushing for ${YELLOW}amd64, arm64${BLUE} with version ${YELLOW}${IMAGE_TAG}${NC}..."
 
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
@@ -27,17 +27,8 @@ docker buildx build \
     -f Dockerfile.uhf \
     -t "solidpixel/uhf-server:${IMAGE_TAG}" \
     -t "solidpixel/uhf-server:latest" \
+    --push \
     .
-
-# Prompt to push images
-read -p "$(echo -e ${BLUE}Push images to Docker Hub? [y/N]${NC}) " -n1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo -e "\n${BLUE}🚀 Pushing images...${NC}"
-    docker push "solidpixel/uhf-server:${IMAGE_TAG}"
-    docker push "solidpixel/uhf-server:latest"
-    echo -e "${GREEN}✅ Push complete!${NC}\n"
-fi
 
 echo -e "\n${GREEN}✨ Done! Docker images:${NC}"
 echo -e "${BLUE}📦 solidpixel/uhf-server:${YELLOW}${IMAGE_TAG}${NC}"
