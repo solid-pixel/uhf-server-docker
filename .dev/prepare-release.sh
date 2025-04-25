@@ -61,12 +61,7 @@ if ! grep -q "## Version ${REPO_VERSION}" "$CHANGELOG_PATH"; then
     read -n 1
 fi
 
-# Create and push git tag
-echo -e "\n${BLUE}🏷️  Creating git tag ${YELLOW}${REPO_VERSION}${NC}..."
-git tag -f "${REPO_VERSION}"
-git push -f origin "${REPO_VERSION}"
-
 echo -e "\n${GREEN}✨ Done!${NC}"
-echo -e "${GREEN}✅ Version ${YELLOW}${REPO_VERSION}${GREEN} has been released.${NC}"
-echo -e "\n${BLUE}ℹ️  To build and push Docker images, run:${NC}"
-echo -e "${YELLOW}./.dev/build-docker.sh${NC}\n"
+echo -e "\n${YELLOW}✅ Now open a PR and merge it.${NC}"
+echo -e "${BLUE}After merging, run:${NC}"
+echo -e "${YELLOW}./.dev/tag-release.sh${NC}\n"

@@ -11,12 +11,13 @@ Thank you for your interest in contributing to the UHF Server Docker project! Th
 
 ## Version Management
 
-This project uses semantic versioning. Version numbers will be assigned by maintainers at merge time, so you don't need to update version numbers in your PR.
+This project uses semantic versioning.  
+**Version numbers will be assigned by maintainers after merge**, so you don't need to update version numbers in your PR.
 
 When submitting a PR:
-1. Document your changes in CHANGELOG.md under a temporary heading (e.g., "## Unreleased")
+1. Document your changes in `CHANGELOG.md` under a temporary heading (e.g., "## Unreleased")
 2. Note any breaking changes in your PR description
-3. The maintainers will handle version bumps and changelog organization during merge
+3. The maintainers will handle version bumps, tagging, and changelog organization after merging
 
 ## Building and Testing
 
@@ -31,27 +32,33 @@ curl http://localhost:8000/server/stats
 
 ### Production Releases
 
-The project uses two scripts for releases:
+The project uses separate scripts for preparing and tagging releases:
 
 ```bash
 # 1. First update versions in .dev/versions.env
 vim .dev/versions.env
 
-# 2. Create release (updates docs, changelog, and creates git tag)
-./.dev/release.sh
-# The script will pause for you to edit the changelog
+# 2. Prepare release (updates badges, docker-compose.yml, and changelog)
+./.dev/prepare-release.sh
+# The script will pause for you to edit the changelog manually.
 
-# 3. Build and push Docker images (if needed)
+# 3. Open a pull request and merge it.
+
+# 4. Build and push Docker images (must be done before tagging)
 ./.dev/build-docker.sh
+
+# 5. After images are online, create and push the Git tag
+./.dev/tag-release.sh
 ```
 
-The scripts handle different aspects of the release:
-- `release.sh` updates documentation, creates changelog entry, and creates git tag
-- `build-docker.sh` builds and pushes multi-arch Docker images
+The scripts handle different parts of the release process:
+- `prepare-release.sh` updates documentation, badges, docker-compose.yml, and adds a changelog entry
+- `build-docker.sh` builds and pushes multi-arch Docker images (before tagging)
+- `tag-release.sh` creates and pushes the Git tag (after Docker images are online)
 
-The Docker images will be pushed to Docker Hub with these tags:
+Docker images are pushed with these tags:
 - `solidpixel/uhf-server:latest`
-- `solidpixel/uhf-server:<IMAGE_TAG>` (version tag including optional `-DOCKER_REVISION`, e.g. `uhf-1.2.0-ffmpeg7.0.2-d2`)
+- `solidpixel/uhf-server:<IMAGE_TAG>` (where `<IMAGE_TAG>` includes UHF version, FFmpeg version, and optional Docker revision, e.g., `uhf-1.2.0-ffmpeg7.0.2-d2`)
 
 ## Pull Request Guidelines
 
@@ -86,3 +93,4 @@ Feel free to open an issue for:
 - Feature requests
 - Questions about the codebase
 - Documentation improvements
+
