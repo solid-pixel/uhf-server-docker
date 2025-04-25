@@ -21,6 +21,11 @@ fi
 # Build and push multi-arch image
 echo -e "\n${BLUE}🏗️  Building and pushing for ${YELLOW}amd64, arm64${BLUE} with version ${YELLOW}${IMAGE_TAG}${NC}..."
 
+# Ensure buildx builder exists and supports multi-arch
+docker buildx create --use --name multiarch-builder 2>/dev/null || docker buildx use multiarch-builder
+docker buildx inspect --bootstrap
+
+# Build multi-arch image
 docker buildx build \
     --platform linux/amd64,linux/arm64 \
     --build-arg UHF_VERSION="${UHF_VERSION}" \
