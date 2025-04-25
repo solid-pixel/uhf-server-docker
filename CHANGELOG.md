@@ -1,6 +1,7 @@
 # Changelog
 
 <!-- Add your changes below. Most recent at the top. -->
+
 ## Version 1.2.5 – 2025-04-25
 
 #### Docker Compose Changes
@@ -14,11 +15,13 @@
 
 #### Dev Changes
 - Dev: Support optional `DOCKER_REVISION` for patch-level image tags in `.dev/versions.env`
-- Dev: Updated `build-docker.sh` and `release.sh` to include `DOCKER_REVISION` in image versioning
+- Dev: Split release process into two separate scripts: `prepare-release.sh` and `tag-release.sh`
 - Dev: Updated `build-docker.sh` to build and push multi-arch images automatically
+- Dev: Updated contribution guidelines to reflect the new release workflow
 
 #### Documentation Changes
 - Updated README with optional recordings mount and healthcheck details
+- Updated CONTRIBUTING.md to match the new release process
 
 ## Version 1.2.4 – 2025-04-24
 
@@ -76,3 +79,4 @@
 ## Version 1.0.0
 
 Initial release
+
