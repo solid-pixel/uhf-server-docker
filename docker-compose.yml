@@ -1,22 +1,41 @@
 version: '3.8'
 
 services:
+
   uhf-server:
-    image: solidpixel/uhf-server:1.2.0-ffmpeg7.0.2
+
+    image: solidpixel/uhf-server:uhf-1.2.0-ffmpeg7.0.2-d2
     container_name: uhf-server
     restart: unless-stopped
-    volumes:
-      - ./uhf-data:/var/lib/uhf-server
-    ports:
-      - 8000:8000 # host:container
 
-    # Optional environment variables:
-    # Uncomment to override defaults
+    volumes:
+      # Persist both recordings (uhf-server/recordings) and database (uhf-server/db.json) by mounting the full data directory:
+      - ./uhf-data:/var/lib/uhf-server
+
+      # OPTIONAL: store recordings in a different location
+      # Uncomment the line below IN ADDITION to the one above.
+      # This will override only the /recordings folder inside the container:
+      # - ./uhf-recordings:/var/lib/uhf-server/recordings
+
+    ports:
+      - 8000:8000 # <HOST>:<CONTAINER>
+                  # <HOST> is what you set in UHF settings. 
+                  # <CONTAINER> must match API_PORT (default is 8000)
+
+    # Optional container environment config:
+    # Uncomment to customize internal container settings (usually not needed)
     # environment:
-    #   - API_HOST=0.0.0.0          # bind to all interfaces
-    #   - API_PORT=8000             # default API port - changing this might break healthchecks
-    #   - RECORDINGS_DIR=/var/lib/uhf-server/recordings  # location for recordings
-    #   - DB_PATH=/var/lib/uhf-server/db.json            # path to database file
-    #   - LOG_LEVEL=INFO            # (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    #   - API_HOST=0.0.0.0
+    #   - API_PORT=8000
+    #   - RECORDINGS_DIR=/var/lib/uhf-server/recordings
+    #   - DB_PATH=/var/lib/uhf-server/db.json
+    #   - LOG_LEVEL=INFO  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
 
     command: ["uhf-server"]
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/server/stats"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      # ⚠️ If you change API_PORT from 8000, you must update the healthcheck URL.

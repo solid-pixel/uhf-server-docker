@@ -11,8 +11,12 @@ NC='\033[0m' # No Color
 # Source versions
 source "$(dirname "$0")/versions.env"
 
-# Generate Docker image version
-DOCKER_VERSION="${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
+# Generate Docker image version (includes optional patch revision)
+if [ -n "$DOCKER_REVISION" ]; then
+    DOCKER_VERSION="uhf-${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}-${DOCKER_REVISION}"
+else
+    DOCKER_VERSION="uhf-${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}"
+fi
 
 # Path to files
 README_PATH="$(dirname "$0")/../README.md"

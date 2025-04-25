@@ -1,9 +1,9 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.2.4-purple.svg)](CHANGELOG.md)
+[![Repo](https://img.shields.io/badge/repo-1.2.5-purple.svg)](CHANGELOG.md)
 [![UHF Server](https://img.shields.io/badge/uhf_server-1.2.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
 [![FFmpeg](https://img.shields.io/badge/ffmpeg-7.0.2-green.svg)](https://ffmpeg.org/)
-[![Updated](https://img.shields.io/badge/updated-2025--04--23-blue.svg)](CHANGELOG.md)
+[![Docker](https://img.shields.io/badge/Docker-uhf--1.2.0--ffmpeg7.0.2--d2-blue?logo=docker)](https://hub.docker.com/r/solidpixel/uhf-server/tags)
 
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up` and visit port 8000 (or your custom port).
 
@@ -71,6 +71,7 @@ You can also customize:
 - **Port mapping:** change `8000:8000` to `YOUR_PORT:8000` in `docker-compose.yml` to use a different external port
 - **Auto-restart:** enabled via `restart: unless-stopped` in `docker-compose.yml`
 - **Health checks:** container health is monitored every 30s via `/server/stats` endpoint
+- **Recordings folder:** override only the recordings directory by uncommenting `./uhf-recordings:/var/lib/uhf-server/recordings` in `docker-compose.yml` (optional; in addition to the main data mount)
 
 ---
 
