@@ -33,14 +33,15 @@ RUN mv /usr/bin/ffmpeg /usr/bin/ffmpeg.bak || true \
     && ln -s /usr/local/bin/ffmpeg /usr/bin/ffmpeg
 
 # Install UHF server with specific version
+ARG TARGETARCH
 ARG UHF_VERSION
 RUN REPO="swapplications/uhf-server-dist" \
     && INSTALL_DIR="/opt/uhf-server" \
     && BIN_NAME="uhf-server" \
-    && ARCH=$(uname -m) \
-    && if [[ "$ARCH" == "x86_64" ]]; then \
+    && ARCH="$TARGETARCH" \
+    && if [ "$ARCH" = "amd64" ]; then \
          PLATFORM="x64"; \
-       elif [[ "$ARCH" == "aarch64" ]]; then \
+       elif [ "$ARCH" = "arm64" ]; then \
          PLATFORM="arm64"; \
        else \
          echo "❌ Unsupported architecture: $ARCH" && exit 1; \
@@ -67,10 +68,6 @@ RUN mkdir -p /var/lib/uhf-server/recordings
 
 # Set working directory
 WORKDIR /var/lib/uhf-server
-
-# Add healthcheck
-HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD curl -f "http://localhost:8000/server/stats" || exit 1
 
 # Start UHF server
 CMD ["bash"]

@@ -1,6 +1,28 @@
 # Changelog
 
 <!-- Add your changes below. Most recent at the top. -->
+
+## Version 1.2.5 – 2025-04-25
+
+#### Docker Compose Changes
+- Moved healthcheck from Dockerfile into `docker-compose.yml` (monitored via `/server/stats` every 30s)
+- Added optional recordings override volume (`./uhf-recordings:/var/lib/uhf-server/recordings`)
+- Added comments to `docker-compose.yml` for better onboarding
+
+#### Docker Image Changes
+- New Docker image tag: `solidpixel/uhf-server:uhf-1.2.0-ffmpeg7.0.2-d2`
+- Removed healthcheck from Dockerfile (now in `docker-compose.yml`)
+
+#### Dev Changes
+- Dev: Support optional `DOCKER_REVISION` for patch-level image tags in `.dev/versions.env`
+- Dev: Split release process into two separate scripts: `prepare-release.sh` and `tag-release.sh`
+- Dev: Updated `build-docker.sh` to build and push multi-arch images automatically
+- Dev: Updated contribution guidelines to reflect the new release workflow
+
+#### Documentation Changes
+- Updated README with optional recordings mount and healthcheck details
+- Updated CONTRIBUTING.md to match the new release process
+
 ## Version 1.2.4 – 2025-04-24
 
 #### Internal Changes
@@ -57,3 +79,4 @@
 ## Version 1.0.0
 
 Initial release
+
