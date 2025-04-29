@@ -4,6 +4,8 @@
 
 ## Version 1.2.6 – 2025-04-29
 
+Fixes [Issue #16](https://github.com/solid-pixel/uhf-server-docker/issues/16)
+
 #### Docker Compose Changes
 - Update `image` tag to `solidpixel/uhf-server:uhf-1.2.0-ffmpeg7.1.1-d1`
 
