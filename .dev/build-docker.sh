@@ -27,13 +27,15 @@ docker buildx inspect --bootstrap
 
 # Build multi-arch image
 docker buildx build \
+    --pull \
+    --no-cache \
     --platform linux/amd64,linux/arm64 \
     --build-arg UHF_VERSION="${UHF_VERSION}" \
-    -f Dockerfile.uhf \
+    -f ./Dockerfile.uhf \
     -t "solidpixel/uhf-server:${IMAGE_TAG}" \
     -t "solidpixel/uhf-server:latest" \
     --push \
-    .
+    ..
 
 echo -e "\n${GREEN}✨ Done! Docker images:${NC}"
 echo -e "${BLUE}📦 solidpixel/uhf-server:${YELLOW}${IMAGE_TAG}${NC}"
