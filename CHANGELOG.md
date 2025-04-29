@@ -2,6 +2,16 @@
 
 <!-- Add your changes below. Most recent at the top. -->
 
+## Version 1.2.6 – 2025-04-29
+
+#### Docker Compose Changes
+- Update `image` tag to `solidpixel/uhf-server:uhf-1.2.0-ffmpeg7.1.1-d1`
+
+#### Docker Image Changes
+- New Docker image tag: `solidpixel/uhf-server:uhf-1.2.0-ffmpeg7.1.1-d1`
+- Updated FFmpeg to standard version `7.1.1` (previously used custom build)
+- Switched to `Ubuntu 25.04` (previously used `Debian Bookworm`)
+
 ## Version 1.2.5 – 2025-04-25
 
 #### Docker Compose Changes
@@ -79,4 +89,3 @@
 ## Version 1.0.0
 
 Initial release
-
