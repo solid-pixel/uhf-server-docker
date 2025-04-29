@@ -5,7 +5,7 @@
 ## Version 1.2.6 – 2025-04-29
 
 #### Docker Compose Changes
-- Update version numbers in .dev/versions.env to `1.2.6`, `7.1.1`, `d1`
+- Update `image` tag to `solidpixel/uhf-server:uhf-1.2.0-ffmpeg7.1.1-d1`
 
 #### Docker Image Changes
 - New Docker image tag: `solidpixel/uhf-server:uhf-1.2.0-ffmpeg7.1.1-d1`
