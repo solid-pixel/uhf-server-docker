@@ -11,14 +11,14 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 
 ## Table of Contents
 
-- [✨ Features](#-features)
-- [📋 Requirements](#-requirements)
-- [🚀 Getting Started](#-getting-started)
-- [⚙️ Customization](#️-customization)
-- [🖥️ Running on Unraid](#️-running-on-unraid-and-truenas-scale)
-- [👥 Credits](#-credits)
-- [📜 License](#-license)
-- [🕧 Changelog](#-changelog)
+- ✨ [Features](#-features)
+- 📋 [Requirements](#-requirements)
+- 🚀 [Getting Started](#-getting-started)
+- ⚙️ [Customization](#️-customization)
+- 🖥️ [Running on Unraid](#️-running-on-unraid-and-truenas-scale)
+- 👥 [Credits](#-credits)
+- 📜 [License](#-license)
+- 🕧 [Changelog](#-changelog)
 
 ---
 
