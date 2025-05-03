@@ -9,6 +9,19 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 
 ---
 
+## Table of Contents
+
+- [✨ Features](#-features)
+- [📋 Requirements](#-requirements)
+- [🚀 Getting Started](#-getting-started)
+- [⚙️ Customization](#️-customization)
+- [🖥️ Running on Unraid](#️-running-on-unraid-and-truenas-scale)
+- [👥 Credits](#-credits)
+- [📜 License](#-license)
+- [🕧 Changelog](#-changelog)
+
+---
+
 ## ✨ Features
 
 - Fully containerized [UHF Server](https://github.com/swapplications/uhf-server-dist)
@@ -35,6 +48,8 @@ This Docker wrapper is _not officially developed or maintained_ by Swapplication
 > If you run into issues with the actual recording logic or the server code, you'll need to contact the UHF devs directly.  
 >  
 > For bugs, suggestions, or Docker-related issues, please **open an Issue or PR on GitHub**. Reddit and Discord DMs won't be monitored.
+
+> **Note:** This README and repository are built with Docker Compose in mind. While other methods of running the container may work, they are not officially supported and are up to the user to figure out.
 
 ---
 
@@ -72,6 +87,12 @@ You can also customize:
 - **Auto-restart:** enabled via `restart: unless-stopped` in `docker-compose.yml`
 - **Health checks:** container health is monitored every 30s via `/server/stats` endpoint
 - **Recordings folder:** override only the recordings directory by uncommenting `./uhf-recordings:/var/lib/uhf-server/recordings` in `docker-compose.yml` (optional; in addition to the main data mount)
+
+---
+
+## 🖥️ Running on Unraid and TrueNAS SCALE
+
+If you’re not using Docker Compose, make sure to set the container’s command to `uhf-server` manually in the UI. These platforms don’t use `docker-compose.yml`, so the default entrypoint won’t be applied. Without this, the server won’t start.
 
 ---
 
