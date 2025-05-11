@@ -2,6 +2,13 @@
 
 <!-- Add your changes below. Most recent at the top. -->
 
+
+## Version 1.2.7 – 2025-05-11
+
+#### Docker Compose Changes
+- Added support for optional PASSWORD environment variable in docker-compose.yml. If set, uhf-server will start with `--password <PASSWORD>`. If not set, no password is used.
+
+
 ## Version 1.2.6 – 2025-04-29
 
 Fixes [Issue #16](https://github.com/solid-pixel/uhf-server-docker/issues/16)

@@ -1,6 +1,6 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.2.6-purple.svg)](CHANGELOG.md)
+[![Repo](https://img.shields.io/badge/repo-1.2.7-purple.svg)](CHANGELOG.md)
 [![UHF Server](https://img.shields.io/badge/uhf_server-1.2.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
 [![FFmpeg](https://img.shields.io/badge/ffmpeg-7.1.1-green.svg)](https://ffmpeg.org/)
 [![Docker](https://img.shields.io/badge/Docker-uhf--1.2.0--ffmpeg7.1.1--d1-blue?logo=docker)](https://hub.docker.com/r/solidpixel/uhf-server/tags)
@@ -55,31 +55,41 @@ This Docker wrapper is _not officially developed or maintained_ by Swapplication
 
 ## 🚀 Getting Started
 
-Clone this repo and run:
+1. Clone this repo and start the container:
 
-```bash
-git clone https://github.com/solid-pixel/uhf-server-docker
-cd uhf-server-docker
-docker compose up -d    # Will automatically pull image from Docker Hub
-```
+    ```bash
+    # Clone this repo
+    git clone https://github.com/solid-pixel/uhf-server-docker
 
-Then open UHF, go to the Recordings tab, and add:
+    # Navigate to the directory
+    cd uhf-server-docker
 
-- SERVER ADDRESS: `<your-host-ip>`
-- SERVER PORT: `8000` (or the port you set up in `docker-compose.yml`)
+    # Start the container
+    docker compose up -d
+    ```
 
-That's it! No building required. 
+2. Open UHF, go to the Recordings tab, and add:
+
+    - SERVER ADDRESS: `<your-host-ip>`
+    - SERVER PORT: `8000` (or the port you set up in `docker-compose.yml`)
+
 
 ---
 
 ## ⚙️ Customization
 
-The following environment variables can be configured in `docker-compose.yml`:
+The following environment variables can be configured:
 - **API_HOST**: Bind to all interfaces (default: `0.0.0.0`)
 - **API_PORT**: Default API port inside container (default: `8000`) - changing this might break healthchecks
 - **RECORDINGS_DIR**: Location for recordings (default: `/var/lib/uhf-server/recordings`)
 - **DB_PATH**: Path to database file (default: `/var/lib/uhf-server/db.json`)
 - **LOG_LEVEL**: Logging verbosity (default: `INFO`) - (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+- **PASSWORD**: (optional) If set, passes `--password $PASSWORD` to `uhf-server` at startup. Leave unset or empty to disable password protection.
+
+You can set these variables in three ways:
+1. Directly in the `docker-compose.yml` file (uncomment the environment section)
+2. In a `.env` file placed in the same directory as your `docker-compose.yml`
+3. As environment variables in your shell before running `docker compose up`
 
 You can also customize:
 - **Storage location:** adjust the `volumes:` path in `docker-compose.yml`
