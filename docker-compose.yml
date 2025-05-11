@@ -31,7 +31,7 @@ services:
     #   - DB_PATH=/var/lib/uhf-server/db.json
     #   - LOG_LEVEL=INFO  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
     #   - PASSWORD=
-    command: sh -c 'exec uhf-server ${PASSWORD:+--password "$PASSWORD"}'
+    command: sh -c 'if [ -n "$PASSWORD" ]; then exec uhf-server --password "$PASSWORD"; else exec uhf-server; fi'
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/server/stats"]
