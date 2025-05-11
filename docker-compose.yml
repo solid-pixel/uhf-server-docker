@@ -30,8 +30,8 @@ services:
     #   - RECORDINGS_DIR=/var/lib/uhf-server/recordings
     #   - DB_PATH=/var/lib/uhf-server/db.json
     #   - LOG_LEVEL=INFO  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
-
-    command: ["uhf-server"]
+    #   - PASSWORD=
+    command: sh -c 'exec uhf-server ${PASSWORD:+--password "$PASSWORD"}'
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/server/stats"]
