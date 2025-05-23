@@ -1,6 +1,14 @@
 # Changelog
 
 <!-- Add your changes below. Most recent at the top. -->
+## Version 1.3.0 – 2025-05-20
+
+#### Docker Image Changes
+- Updated `uhf-server` to version `1.3.0` ([Changelog](https://github.com/swapplications/uhf-server-dist/blob/main/CHANGELOG.md))
+
+#### Docker Compose Changes
+- Update `image` tag to `solidpixel/uhf-server:uhf-1.3.0-ffmpeg7.1.1-d1`
+
 
 ## Version 1.2.6 – 2025-04-29
 

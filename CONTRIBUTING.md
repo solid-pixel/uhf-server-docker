@@ -58,7 +58,7 @@ The scripts handle different parts of the release process:
 
 Docker images are pushed with these tags:
 - `solidpixel/uhf-server:latest`
-- `solidpixel/uhf-server:<IMAGE_TAG>` (where `<IMAGE_TAG>` includes UHF version, FFmpeg version, and optional Docker revision, e.g., `uhf-1.2.0-ffmpeg7.0.2-d2`)
+- `solidpixel/uhf-server:<IMAGE_TAG>` (where `<IMAGE_TAG>` includes UHF version, FFmpeg version, and optional Docker revision, e.g., `uhf-1.3.0-ffmpeg7.1.1-d1`)
 
 ## Pull Request Guidelines
 
