@@ -1,6 +1,17 @@
 # Changelog
 
 <!-- Add your changes below. Most recent at the top. -->
+## Version 1.4.0 – 2025-06-02
+
+#### Docker Image Changes
+- Updated `uhf-server` to version `1.4.0` ([Changelog](https://github.com/swapplications/uhf-server-dist/blob/main/CHANGELOG.md))
+- Added support for commercial detection feature (new in UHF 1.4.0)
+
+#### Docker Compose Changes
+- Update `image` tag to `solidpixel/uhf-server:uhf-1.4.0-ffmpeg7.1.1-d1`
+- Added `ENABLE_COMMERCIAL_DETECTION` environment variable (default: false)
+- Modified command to support `--enable-commercial-detection` flag when enabled
+
 ## Version 1.3.0 – 2025-05-20
 
 #### Docker Image Changes

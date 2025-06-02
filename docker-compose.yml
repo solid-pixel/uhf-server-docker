@@ -4,7 +4,7 @@ services:
 
   uhf-server:
 
-    image: solidpixel/uhf-server:uhf-1.3.0-ffmpeg7.1.1-d1
+    image: solidpixel/uhf-server:uhf-1.4.0-ffmpeg7.1.1-d1
     container_name: uhf-server
     restart: unless-stopped
 
@@ -24,14 +24,15 @@ services:
 
     # Optional container environment config:
     # Uncomment to customize internal container settings (usually not needed)
-    # environment:
-    #   - API_HOST=0.0.0.0
-    #   - API_PORT=8000
-    #   - RECORDINGS_DIR=/var/lib/uhf-server/recordings
-    #   - DB_PATH=/var/lib/uhf-server/db.json
-    #   - LOG_LEVEL=INFO  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+    environment:
+      - ENABLE_COMMERCIAL_DETECTION=false  # Set to true to enable commercial detection feature
+      # - API_HOST=0.0.0.0
+      # - API_PORT=8000
+      # - RECORDINGS_DIR=/var/lib/uhf-server/recordings
+      # - DB_PATH=/var/lib/uhf-server/db.json
+      # - LOG_LEVEL=INFO  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
 
-    command: ["uhf-server"]
+    command: sh -c 'if [ "$$ENABLE_COMMERCIAL_DETECTION" = "true" ]; then uhf-server --enable-commercial-detection; else uhf-server; fi'
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/server/stats"]
