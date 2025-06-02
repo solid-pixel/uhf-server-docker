@@ -32,7 +32,8 @@ services:
       # - DB_PATH=/var/lib/uhf-server/db.json
       # - LOG_LEVEL=INFO  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
 
-    command: sh -c 'if [ "$$ENABLE_COMMERCIAL_DETECTION" = "true" ]; then uhf-server --enable-commercial-detection; else uhf-server; fi'
+    # Simple command with conditional commercial detection flag
+    command: [ "uhf-server", "${ENABLE_COMMERCIAL_DETECTION:+--enable-commercial-detection}" ]
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/server/stats"]
