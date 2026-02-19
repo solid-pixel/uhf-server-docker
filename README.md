@@ -1,9 +1,9 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.5.1-purple.svg)](CHANGELOG.md)
-[![UHF Server](https://img.shields.io/badge/uhf_server-1.5.1-orange.svg)](https://github.com/swapplications/uhf-server-dist)
+[![Repo](https://img.shields.io/badge/repo-1.6.0-purple.svg)](CHANGELOG.md)
+[![UHF Server](https://img.shields.io/badge/uhf_server-1.6.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
 [![FFmpeg](https://img.shields.io/badge/ffmpeg-7.1.1-green.svg)](https://ffmpeg.org/)
-[![Docker](https://img.shields.io/badge/Docker-uhf--1.5.1--ffmpeg7.1.1--d1-blue?logo=docker)](https://hub.docker.com/r/solidpixel/uhf-server/tags)
+[![Docker](https://img.shields.io/badge/Docker-uhf--1.6.0--ffmpeg7.1.1--d1-blue?logo=docker)](https://hub.docker.com/r/solidpixel/uhf-server/tags)
 
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up` and visit port 8000 (or your custom port).
 
