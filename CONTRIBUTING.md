@@ -42,19 +42,21 @@ vim .dev/versions.env
 ./.dev/prepare-release.sh
 # The script will pause for you to edit the changelog manually.
 
-# 3. Open a pull request and merge it.
+# 3. Open a pull request.
 
-# 4. Build and push Docker images (must be done before tagging)
+# 4. Build and push Docker images (must be done before merging)
 ./.dev/build-docker.sh
 
-# 5. After images are online, create and push the Git tag
+# 5. Merge the pull request.
+
+# 6. After images are online and PR is merged, create and push the Git tag
 ./.dev/tag-release.sh
 ```
 
 The scripts handle different parts of the release process:
 - `prepare-release.sh` updates documentation, badges, docker-compose.yml, and adds a changelog entry
-- `build-docker.sh` builds and pushes multi-arch Docker images (before tagging)
-- `tag-release.sh` creates and pushes the Git tag (after Docker images are online)
+- `build-docker.sh` builds and pushes multi-arch Docker images (before merging, so the image is available immediately after merge)
+- `tag-release.sh` creates and pushes the Git tag (after Docker images are online and PR is merged)
 
 Docker images are pushed with these tags:
 - `solidpixel/uhf-server:latest`
