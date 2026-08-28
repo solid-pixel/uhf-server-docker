@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -9,7 +12,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Load versions
-source "$(dirname "$0")/versions.env"
+source "${SCRIPT_DIR}/versions.env"
 
 # Build image tag
 if [ -n "$DOCKER_REVISION" ]; then
@@ -31,11 +34,11 @@ docker buildx build \
     --no-cache \
     --platform linux/amd64,linux/arm64 \
     --build-arg UHF_VERSION="${UHF_VERSION}" \
-    -f ./Dockerfile.uhf \
+    -f "${REPO_ROOT}/Dockerfile.uhf" \
     -t "solidpixel/uhf-server:${IMAGE_TAG}" \
     -t "solidpixel/uhf-server:latest" \
     --push \
-    ..
+    "${REPO_ROOT}"
 
 echo -e "\n${GREEN}✨ Done! Docker images:${NC}"
 echo -e "${BLUE}📦 solidpixel/uhf-server:${YELLOW}${IMAGE_TAG}${NC}"
