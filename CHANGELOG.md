@@ -14,7 +14,13 @@
 - Preserved `PASSWORD` values containing spaces or shell-sensitive characters as a single argument
 
 #### Upgrade Notes
-- Back up `uhf-data` before upgrading, then pull and recreate the container while keeping the existing data mount
+- Back up the complete `uhf-data` directory before upgrading.
+- Pull and recreate the container while retaining the existing `./uhf-data:/var/lib/uhf-server` mount:
+
+```bash
+docker compose pull
+docker compose up -d --force-recreate
+```
 
 ## Version 1.6.0 – 2026-02-18
 
