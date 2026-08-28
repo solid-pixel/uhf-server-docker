@@ -47,14 +47,16 @@ vim .dev/versions.env
 # 4. Build and push Docker images (must be done before tagging)
 ./.dev/build-docker.sh
 
-# 5. After images are online, create and push the Git tag
+# 5. After images are online and verified, create and push the Git tag
 ./.dev/tag-release.sh
+
+# 6. Publish the matching GitHub release
 ```
 
 The scripts handle different parts of the release process:
 - `prepare-release.sh` updates documentation, badges, docker-compose.yml, and adds a changelog entry
 - `build-docker.sh` builds and pushes multi-arch Docker images (before tagging)
-- `tag-release.sh` creates and pushes the Git tag (after Docker images are online)
+- `tag-release.sh` creates and pushes the Git tag (after Docker images are online and verified); publish the GitHub release from that tag
 
 Docker images are pushed with these tags:
 - `solidpixel/uhf-server:latest`

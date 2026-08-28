@@ -2,7 +2,7 @@ services:
 
   uhf-server:
 
-    image: solidpixel/uhf-server:uhf-1.6.0-ffmpeg7.1.1-d1
+    image: solidpixel/uhf-server:uhf-2.0.0-ffmpeg7.1.1-d1
     container_name: uhf-server
     restart: unless-stopped
 
@@ -20,9 +20,9 @@ services:
 
     # Optional container environment config
     environment:
-      - ENABLE_COMMERCIAL_DETECTION=false  # set true for commercial detection
+      - ENABLE_COMMERCIAL_DETECTION=${ENABLE_COMMERCIAL_DETECTION:-false}  # set true for commercial detection
+      - PASSWORD=${PASSWORD:-}
       # Uncomment below to customize internal container settings (usually not needed)
-      # - PASSWORD=your_password_here
       # - API_HOST=0.0.0.0
       # - API_PORT=8000
       # - RECORDINGS_DIR=/var/lib/uhf-server/recordings
@@ -32,12 +32,20 @@ services:
     # Command with conditional flags
     # !!! Do not modify this unless you know what you're doing !!!
     command:
-      - sh
+      - bash
       - -c
       - |
-          exec uhf-server \
-            $${ENABLE_COMMERCIAL_DETECTION:+--enable-commercial-detection} \
-            $${PASSWORD:+--password "$$PASSWORD"}
+          commercial_detection="$${ENABLE_COMMERCIAL_DETECTION:-}"
+          password="$${PASSWORD:-}"
+          unset ENABLE_COMMERCIAL_DETECTION PASSWORD
+          args=(uhf-server)
+          if [[ "$$commercial_detection" == "true" ]]; then
+            args+=(--enable-commercial-detection)
+          fi
+          if [[ -n "$$password" ]]; then
+            args+=(--password "$$password")
+          fi
+          exec "$${args[@]}"
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/server/stats"] # update URL if API_PORT changes

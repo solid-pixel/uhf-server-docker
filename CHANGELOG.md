@@ -1,6 +1,21 @@
 # Changelog
 
 <!-- Add your changes below. Most recent at the top. -->
+## Version 2.0.0 – 2026-08-28
+
+#### Docker Image Changes
+- Updated `uhf-server` to version `2.0.0` ([upstream release](https://github.com/swapplications/uhf-server-dist/releases/tag/2.0.0))
+- New recordings use HLS playlists and segments; legacy single-file recordings remain supported
+- Retained Ubuntu 25.04, FFmpeg 7.1.1, Comskip, and amd64/arm64 support
+
+#### Docker Compose Changes
+- Updated `image` tag to `solidpixel/uhf-server:uhf-2.0.0-ffmpeg7.1.1-d1`
+- Fixed `ENABLE_COMMERCIAL_DETECTION` so only `true` enables commercial detection; `false`, empty, and unset values leave it disabled
+- Preserved `PASSWORD` values containing spaces or shell-sensitive characters as a single argument
+
+#### Upgrade Notes
+- Back up `uhf-data` before upgrading, then pull and recreate the container while keeping the existing data mount
+
 ## Version 1.6.0 – 2026-02-18
 
 #### Docker Image Changes

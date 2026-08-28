@@ -1,9 +1,9 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-1.6.0-purple.svg)](CHANGELOG.md)
-[![UHF Server](https://img.shields.io/badge/uhf_server-1.6.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
+[![Repo](https://img.shields.io/badge/repo-2.0.0-purple.svg)](CHANGELOG.md)
+[![UHF Server](https://img.shields.io/badge/uhf_server-2.0.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
 [![FFmpeg](https://img.shields.io/badge/ffmpeg-7.1.1-green.svg)](https://ffmpeg.org/)
-[![Docker](https://img.shields.io/badge/Docker-uhf--1.6.0--ffmpeg7.1.1--d1-blue?logo=docker)](https://hub.docker.com/r/solidpixel/uhf-server/tags)
+[![Docker](https://img.shields.io/badge/Docker-uhf--2.0.0--ffmpeg7.1.1--d1-blue?logo=docker)](https://hub.docker.com/r/solidpixel/uhf-server/tags)
 
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up` and visit port 8000 (or your custom port).
 
@@ -14,6 +14,7 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 - ✨ [Features](#-features)
 - 📋 [Requirements](#-requirements)
 - 🚀 [Getting Started](#-getting-started)
+- ⬆️ [Upgrading to 2.0.0](#upgrading-to-200)
 - ⚙️ [Customization](#️-customization)
 - 🖥️ [Running on Unraid](#️-running-on-unraid-and-truenas-scale)
 - 👥 [Credits](#-credits)
@@ -74,6 +75,17 @@ This Docker wrapper is _not officially developed or maintained_ by Swapplication
     - SERVER ADDRESS: `<your-host-ip>`
     - SERVER PORT: `8000` (or the port you set up in `docker-compose.yml`)
 
+## Upgrading to 2.0.0
+
+UHF Server 2 records new programs as HLS playlists and segments. Existing legacy single-file recordings remain supported.
+
+Before upgrading, back up the complete `uhf-data` directory. Then pull or recreate the container so Compose uses `solidpixel/uhf-server:uhf-2.0.0-ffmpeg7.1.1-d1` while retaining the existing `./uhf-data:/var/lib/uhf-server` mount:
+
+```bash
+docker compose pull
+docker compose up -d --force-recreate
+```
+
 
 
 ---
@@ -86,10 +98,10 @@ The following environment variables can be configured in `docker-compose.yml`:
 - **RECORDINGS_DIR**: Location for recordings (default: `/var/lib/uhf-server/recordings`)
 - **DB_PATH**: Path to database file (default: `/var/lib/uhf-server/db.json`)
 - **LOG_LEVEL**: Logging verbosity (default: `INFO`) - (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-- **ENABLE_COMMERCIAL_DETECTION**: Enable automatic commercial detection after recordings (default: `false`) — uses [`comskip`](https://github.com/erikkaashoek/Comskip), already installed in this image
-- **PASSWORD**: (optional) Passes `--password $PASSWORD` to `uhf-server` if set
+- **ENABLE_COMMERCIAL_DETECTION**: Set exactly `true` to enable automatic commercial detection after recordings. `false`, an empty value, or an unset variable leaves it disabled (default: `false`). Uses [`comskip`](https://github.com/erikkaashoek/Comskip), already installed in this image
+- **PASSWORD**: (optional) Passes the complete value as one `--password` argument to `uhf-server`, including values containing spaces or shell-sensitive characters
 
-You can set these variables in three ways:
+`ENABLE_COMMERCIAL_DETECTION` and `PASSWORD` are passed through by Compose and can be set in three ways. For the other optional variables, first uncomment their entries in `docker-compose.yml`:
 1. Directly in the `docker-compose.yml` file (uncomment the environment section)
 2. In a `.env` file placed in the same directory as your `docker-compose.yml`
 3. As environment variables in your shell before running `docker compose up`
