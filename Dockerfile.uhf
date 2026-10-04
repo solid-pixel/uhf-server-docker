@@ -1,14 +1,18 @@
-# Final image on Ubuntu 25.04
-FROM ubuntu:25.04
+# Debian 13 provides FFmpeg 7 and receives security updates through 2030.
+FROM debian:13-slim
+
+ARG FFMPEG_VERSION
 
 # Install all build dependencies including Comskip requirements
-RUN apt-get update -o Acquire::Check-Valid-Until=false \
+RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         ca-certificates git curl bash unzip ffmpeg \
         build-essential autoconf automake libtool \
         libargtable2-dev pkg-config libsdl2-dev \
         libavcodec-dev libavformat-dev libavfilter-dev libavutil-dev \
         libavdevice-dev libjansson-dev \
+    && INSTALLED_FFMPEG_VERSION="$(ffmpeg -version | awk 'NR == 1 {split($3, version, "-"); print version[1]; exit}')" \
+    && test "$INSTALLED_FFMPEG_VERSION" = "$FFMPEG_VERSION" \
     && rm -rf /var/lib/apt/lists/*
 
 # Build and install Comskip from source
@@ -41,7 +45,7 @@ RUN REPO="swapplications/uhf-server-dist" \
     && ASSET_URL="https://github.com/$REPO/releases/download/${UHF_VERSION}/${ASSET_FILENAME}" \
     && echo "📥 Downloading from: $ASSET_URL" \
     && TMP_DIR=$(mktemp -d) \
-    && curl -L "$ASSET_URL" -o "$TMP_DIR/uhf-server.zip" \
+    && curl -fL --retry 3 "$ASSET_URL" -o "$TMP_DIR/uhf-server.zip" \
     && echo "📦 Unzipping..." \
     && unzip -q "$TMP_DIR/uhf-server.zip" -d "$TMP_DIR/extracted" \
     && echo "🚚 Installing to $INSTALL_DIR..." \

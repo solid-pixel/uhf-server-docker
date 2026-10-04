@@ -34,6 +34,7 @@ docker buildx build \
     --no-cache \
     --platform linux/amd64,linux/arm64 \
     --build-arg UHF_VERSION="${UHF_VERSION}" \
+    --build-arg FFMPEG_VERSION="${FFMPEG_VERSION}" \
     -f "${REPO_ROOT}/Dockerfile.uhf" \
     -t "solidpixel/uhf-server:${IMAGE_TAG}" \
     -t "solidpixel/uhf-server:latest" \

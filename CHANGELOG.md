@@ -1,6 +1,26 @@
 # Changelog
 
 <!-- Add your changes below. Most recent at the top. -->
+## Version 2.1.0 – 2026-10-04
+
+#### Docker Image Changes
+- Updated `uhf-server` to version `2.1.0` ([upstream release](https://github.com/swapplications/uhf-server-dist/releases/tag/2.1.0))
+- Switched from Ubuntu 25.04 to supported Debian 13 slim
+- Updated FFmpeg to `7.1.5` and verify its version during the image build
+- Retained Comskip and amd64/arm64 support
+
+#### Docker Compose Changes
+- Updated `image` tag to `solidpixel/uhf-server:uhf-2.1.0-ffmpeg7.1.5-d1`
+
+#### Upstream Features and Fixes
+- Added a browser interface on the existing server port for managing, watching, and downloading recordings and viewing logs
+- Fixed HLS/DASH recordings that stalled while repeatedly reconnecting
+- Improved recurring recording time zones and cancellation, and seeking in recordings in progress
+
+#### Upgrade Notes
+- Wait for active recordings to finish and back up all server data before pulling and recreating the container
+- The browser interface uses the existing server password, or opens directly when no password is set
+
 ## Version 2.0.0 – 2026-08-28
 
 #### Docker Image Changes
