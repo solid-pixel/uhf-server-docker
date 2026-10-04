@@ -1,9 +1,9 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-2.0.0-purple.svg)](CHANGELOG.md)
-[![UHF Server](https://img.shields.io/badge/uhf_server-2.0.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
-[![FFmpeg](https://img.shields.io/badge/ffmpeg-7.1.1-green.svg)](https://ffmpeg.org/)
-[![Docker](https://img.shields.io/badge/Docker-uhf--2.0.0--ffmpeg7.1.1--d1-blue?logo=docker)](https://hub.docker.com/r/solidpixel/uhf-server/tags)
+[![Repo](https://img.shields.io/badge/repo-2.1.0-purple.svg)](CHANGELOG.md)
+[![UHF Server](https://img.shields.io/badge/uhf_server-2.1.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
+[![FFmpeg](https://img.shields.io/badge/ffmpeg-7.1.5-green.svg)](https://ffmpeg.org/)
+[![Docker](https://img.shields.io/badge/Docker-uhf--2.1.0--ffmpeg7.1.5--d1-blue?logo=docker)](https://hub.docker.com/r/solidpixel/uhf-server/tags)
 
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up` and visit port 8000 (or your custom port).
 
@@ -14,7 +14,8 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 - ✨ [Features](#-features)
 - 📋 [Requirements](#-requirements)
 - 🚀 [Getting Started](#-getting-started)
-- ⬆️ [Upgrading to 2.0.0](#upgrading-to-200)
+- ⬆️ [Upgrading to 2.1.0](#upgrading-to-210)
+- 🌐 [Web interface](#web-interface)
 - ⚙️ [Customization](#️-customization)
 - 🖥️ [Running on Unraid](#️-running-on-unraid-and-truenas-scale)
 - 👥 [Credits](#-credits)
@@ -32,6 +33,7 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 - Multi-arch support (amd64, arm64)
 - Container health monitoring
 - Commercial detection support (UHF 1.4.0+) — `comskip` pre-installed
+- Browser interface for managing, watching, and downloading recordings (UHF 2.1.0+)
 
 ---
 
@@ -75,18 +77,24 @@ This Docker wrapper is _not officially developed or maintained_ by Swapplication
     - SERVER ADDRESS: `<your-host-ip>`
     - SERVER PORT: `8000` (or the port you set up in `docker-compose.yml`)
 
-## Upgrading to 2.0.0
+## Upgrading to 2.1.0
 
 UHF Server 2 records new programs as HLS playlists and segments. Existing legacy single-file recordings remain supported.
 
-Before upgrading, back up the complete `uhf-data` directory. Then pull or recreate the container so Compose uses `solidpixel/uhf-server:uhf-2.0.0-ffmpeg7.1.1-d1` while retaining the existing `./uhf-data:/var/lib/uhf-server` mount:
+Wait for active recordings to finish, then back up the complete `uhf-data` directory and any separate recordings mount. Update your Compose file to use `solidpixel/uhf-server:uhf-2.1.0-ffmpeg7.1.5-d1`, retaining the existing `./uhf-data:/var/lib/uhf-server` mount, and run:
 
 ```bash
 docker compose pull
 docker compose up -d --force-recreate
 ```
 
+## Web interface
 
+Open `http://<your-host-ip>:8000/` (or your custom port) to manage scheduled recordings, browse the library, watch recordings, download them as a single file, and view server logs.
+
+Sign in with the server's `PASSWORD` if you have configured one. Without a password, devices that can reach the server can access the interface directly. No UHF account is required.
+
+See the [upstream 2.1.0 release notes](https://github.com/swapplications/uhf-server-dist/releases/tag/2.1.0) for browser playback compatibility and recording fixes.
 
 ---
 

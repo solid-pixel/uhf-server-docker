@@ -23,12 +23,22 @@ When submitting a PR:
 
 ### Local Testing
 ```bash
-# Build and run locally
-docker compose up --build
+# Build a local image for the current architecture
+source .dev/versions.env
+docker buildx build --load \
+  --build-arg UHF_VERSION="$UHF_VERSION" \
+  --build-arg FFMPEG_VERSION="$FFMPEG_VERSION" \
+  -f Dockerfile.uhf \
+  -t "solidpixel/uhf-server:uhf-${UHF_VERSION}-ffmpeg${FFMPEG_VERSION}-${DOCKER_REVISION}" .
+
+# Start the local image using Compose
+docker compose up -d
 
 # Test the container
 curl http://localhost:8000/server/stats
 ```
+
+Also open `http://localhost:8000/` and verify the browser interface. Test recordings and password login with a separate data directory before releasing. The build verifies that the installed FFmpeg version matches `FFMPEG_VERSION`; update it and the image tag together when Debian updates FFmpeg.
 
 ### Production Releases
 
