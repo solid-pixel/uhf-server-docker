@@ -134,7 +134,7 @@ If you’re not using Docker Compose, make sure to set the container’s command
 ## 👥 Credits
 
 - [UHF Server](https://www.uhfapp.com/server) by Swapplications
-- Docker wrapper by [Alessandro Benassi](https://github.com/solid-pixel)
+- Docker wrapper by [Alessandro Benassi](https://github.com/solid-pixel) ([alebenassi.com](https://alebenassi.com))
 - All the Discord legends that helped me test this
 
 ---

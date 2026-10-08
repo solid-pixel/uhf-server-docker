@@ -4,6 +4,7 @@
 ## Unreleased
 
 #### Documentation Changes
+- Added the maintainer's website beside the existing GitHub link in the credits
 - Clarified the repository's Docker packaging and deployment scope, with guidance directing UHF product issues to UHF support
 - Added a Docker issue form with a required scope acknowledgement and an official support link; disabled blank issue creation
 
