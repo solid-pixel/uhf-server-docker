@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: UHF app and server support
+    url: https://getuhf.com/support
+    about: Report UHF product bugs and feature requests, native installation problems, or account and subscription issues to the UHF developers.

@@ -2,6 +2,12 @@
 
 Thank you for your interest in contributing to the UHF Server Docker project! This document provides guidelines and steps for contributing.
 
+## Repository Scope
+
+Contributions here cover the Docker image, bundled dependencies, Compose configuration, and setup documentation. UHF app and server bugs or product feature requests belong with [UHF support](https://getuhf.com/support). Running UHF in this container does not make a product bug a Docker packaging bug.
+
+Read [Support and issue scope](.github/SUPPORT.md) before opening an issue or proposing a change.
+
 ## Development Process
 
 1. Fork the repository
@@ -100,8 +106,6 @@ git commit -m "docs: Update installation guide"
 
 ## Need Help?
 
-Feel free to open an issue for:
-- Bug reports
-- Feature requests
-- Questions about the codebase
-- Documentation improvements
+Open an issue for Docker packaging bugs, improvements to this repository, or questions about the documented Docker Compose setup. Include the image tag, host environment, steps to reproduce, and relevant logs when reporting a bug. Remove passwords, tokens, stream URLs, and other private information.
+
+For recording logic, playback, scheduling, server logging, native installations, or account and subscription issues, contact [UHF support](https://getuhf.com/support). Upstream product reports may be closed here with a referral to UHF support.

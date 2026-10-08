@@ -1,0 +1,65 @@
+name: Docker setup issue or suggestion
+description: Report a problem or suggest an improvement to this repository's Docker image, Compose setup, or documentation.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This repository maintains community Docker packaging and deployment. UHF app and server bugs, product feature requests, and native Windows/macOS/Linux issues belong with [UHF support](https://getuhf.com/support), even when a product bug also occurs inside Docker.
+
+        Read [Support and issue scope](https://github.com/solid-pixel/uhf-server-docker/blob/main/.github/SUPPORT.md) before continuing. Remove passwords, tokens, stream URLs, and other private information from all fields and attachments.
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Repository scope
+      options:
+        - label: This report concerns this repository's Docker packaging, Compose configuration, or documentation. I understand that UHF product issues belong with UHF support.
+          required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Type of issue
+      options:
+        - Docker packaging or deployment bug
+        - Docker setup question
+        - Repository improvement or documentation correction
+    validations:
+      required: true
+  - type: textarea
+    id: docker-context
+    attributes:
+      label: How does this relate to the Docker setup?
+      description: Describe the connection to the image, bundled dependencies, Compose configuration, or documentation. If you are unsure, explain what you have observed.
+    validations:
+      required: true
+  - type: input
+    id: image
+    attributes:
+      label: Docker image tag
+      description: For bugs, give the exact tag or image digest. For a documentation change or suggestion, enter "Not applicable".
+      placeholder: solidpixel/uhf-server:uhf-2.1.0-ffmpeg7.1.5-d1
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Host and Docker environment
+      description: For bugs, include the host OS, CPU architecture, Docker version, Compose version, and how you start the container.
+      placeholder: |
+        Host OS:
+        CPU architecture:
+        Docker version:
+        Compose version:
+        Startup command or method:
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: For bugs, give the steps to reproduce, expected behavior, and actual behavior. For questions or suggestions, explain what you need or propose.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant configuration and logs
+      description: Include relevant Compose configuration and container logs. Remove passwords, tokens, stream URLs, and other private information.
+      render: text
