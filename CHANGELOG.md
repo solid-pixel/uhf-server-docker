@@ -1,6 +1,12 @@
 # Changelog
 
 <!-- Add your changes below. Most recent at the top. -->
+## Unreleased
+
+#### Documentation Changes
+- Clarified the repository's Docker packaging and deployment scope, with guidance directing UHF product issues to UHF support
+- Added a Docker issue form with a required scope acknowledgement and an official support link; disabled blank issue creation
+
 ## Version 2.1.0 – 2026-10-04
 
 #### Docker Image Changes
