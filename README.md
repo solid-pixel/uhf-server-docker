@@ -1,9 +1,9 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-2.1.0-purple.svg)](CHANGELOG.md)
-[![UHF Server](https://img.shields.io/badge/uhf_server-2.1.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
+[![Repo](https://img.shields.io/badge/repo-2.2.0-purple.svg)](CHANGELOG.md)
+[![UHF Server](https://img.shields.io/badge/uhf_server-2.2.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
 [![FFmpeg](https://img.shields.io/badge/ffmpeg-7.1.5-green.svg)](https://ffmpeg.org/)
-[![Docker](https://img.shields.io/badge/Docker-uhf--2.1.0--ffmpeg7.1.5--d1-blue?logo=docker)](https://hub.docker.com/r/solidpixel/uhf-server/tags)
+[![Docker](https://img.shields.io/badge/Docker-uhf--2.2.0--ffmpeg7.1.5--d1-blue?logo=docker)](https://hub.docker.com/r/solidpixel/uhf-server/tags)
 
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up` and visit port 8000 (or your custom port).
 
@@ -18,7 +18,7 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 - ✨ [Features](#-features)
 - 📋 [Requirements](#-requirements)
 - 🚀 [Getting Started](#-getting-started)
-- ⬆️ [Upgrading to 2.1.0](#upgrading-to-210)
+- ⬆️ [Upgrading to 2.2.0](#upgrading-to-220)
 - 🌐 [Web interface](#web-interface)
 - ⚙️ [Customization](#️-customization)
 - 🖥️ [Running on Unraid](#️-running-on-unraid-and-truenas-scale)
@@ -79,11 +79,13 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
     - SERVER ADDRESS: `<your-host-ip>`
     - SERVER PORT: `8000` (or the port you set up in `docker-compose.yml`)
 
-## Upgrading to 2.1.0
+## Upgrading to 2.2.0
+
+UHF 2.2.0 adds recovery after stream interruptions, resumes recordings after a server restart, and fixes playback during recording with FFmpeg 7.1 or newer. See the [upstream 2.2.0 release notes](https://github.com/swapplications/uhf-server-dist/releases/tag/2.2.0).
 
 UHF Server 2 records new programs as HLS playlists and segments. Existing legacy single-file recordings remain supported.
 
-Wait for active recordings to finish, then back up the complete `uhf-data` directory and any separate recordings mount. Update your Compose file to use `solidpixel/uhf-server:uhf-2.1.0-ffmpeg7.1.5-d1`, retaining the existing `./uhf-data:/var/lib/uhf-server` mount, and run:
+Wait for active recordings to finish, then back up the complete `uhf-data` directory and any separate recordings mount. Update your Compose file to use `solidpixel/uhf-server:uhf-2.2.0-ffmpeg7.1.5-d1`, retaining the existing `./uhf-data:/var/lib/uhf-server` mount, and run:
 
 ```bash
 docker compose pull
@@ -109,9 +111,10 @@ The following environment variables can be configured in `docker-compose.yml`:
 - **DB_PATH**: Path to database file (default: `/var/lib/uhf-server/db.json`)
 - **LOG_LEVEL**: Logging verbosity (default: `INFO`) - (DEBUG, INFO, WARNING, ERROR, CRITICAL)
 - **ENABLE_COMMERCIAL_DETECTION**: Set exactly `true` to enable automatic commercial detection after recordings. `false`, an empty value, or an unset variable leaves it disabled (default: `false`). Uses [`comskip`](https://github.com/erikkaashoek/Comskip), already installed in this image
+- **SINGLE_FILE_RECORDINGS**: Set exactly `true` to merge each finished recording into one `index.ts` file, with a playlist for playback (default: `false`). Merging briefly needs twice the recording’s disk space. Existing recordings are unchanged
 - **PASSWORD**: (optional) Passes the complete value as one `--password` argument to `uhf-server`, including values containing spaces or shell-sensitive characters
 
-`ENABLE_COMMERCIAL_DETECTION` and `PASSWORD` are passed through by Compose and can be set in three ways. For the other optional variables, first uncomment their entries in `docker-compose.yml`:
+`ENABLE_COMMERCIAL_DETECTION`, `SINGLE_FILE_RECORDINGS`, and `PASSWORD` are passed through by Compose and can be set in three ways. For the other optional variables, first uncomment their entries in `docker-compose.yml`:
 1. Directly in the `docker-compose.yml` file (uncomment the environment section)
 2. In a `.env` file placed in the same directory as your `docker-compose.yml`
 3. As environment variables in your shell before running `docker compose up`
