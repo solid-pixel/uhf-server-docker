@@ -2,7 +2,7 @@ services:
 
   uhf-server:
 
-    image: solidpixel/uhf-server:uhf-2.1.0-ffmpeg7.1.5-d1
+    image: solidpixel/uhf-server:uhf-2.2.0-ffmpeg7.1.5-d1
     container_name: uhf-server
     restart: unless-stopped
 
@@ -21,6 +21,7 @@ services:
     # Optional container environment config
     environment:
       - ENABLE_COMMERCIAL_DETECTION=${ENABLE_COMMERCIAL_DETECTION:-false}  # set true for commercial detection
+      - SINGLE_FILE_RECORDINGS=${SINGLE_FILE_RECORDINGS:-false}  # set true to merge finished recordings
       - PASSWORD=${PASSWORD:-}
       # Uncomment below to customize internal container settings (usually not needed)
       # - API_HOST=0.0.0.0
@@ -36,11 +37,15 @@ services:
       - -c
       - |
           commercial_detection="$${ENABLE_COMMERCIAL_DETECTION:-}"
+          single_file_recordings="$${SINGLE_FILE_RECORDINGS:-}"
           password="$${PASSWORD:-}"
-          unset ENABLE_COMMERCIAL_DETECTION PASSWORD
+          unset ENABLE_COMMERCIAL_DETECTION SINGLE_FILE_RECORDINGS PASSWORD
           args=(uhf-server)
           if [[ "$$commercial_detection" == "true" ]]; then
             args+=(--enable-commercial-detection)
+          fi
+          if [[ "$$single_file_recordings" == "true" ]]; then
+            args+=(--single-file-recordings)
           fi
           if [[ -n "$$password" ]]; then
             args+=(--password "$$password")

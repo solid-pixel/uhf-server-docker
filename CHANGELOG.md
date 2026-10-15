@@ -1,7 +1,24 @@
 # Changelog
 
 <!-- Add your changes below. Most recent at the top. -->
-## Unreleased
+## Version 2.2.0 – 2026-10-15
+
+#### Docker Image Changes
+- Updated `uhf-server` to `2.2.0` ([upstream release](https://github.com/swapplications/uhf-server-dist/releases/tag/2.2.0))
+- Retained Debian 13 slim, FFmpeg `7.1.5`, Comskip, and amd64/arm64 support
+
+#### Docker Compose Changes
+- Updated the image tag to `solidpixel/uhf-server:uhf-2.2.0-ffmpeg7.1.5-d1`
+- Added optional `SINGLE_FILE_RECORDINGS`; only `true` enables merging finished recordings into one file
+
+#### Upstream Features and Fixes
+- Recordings recover from stream interruptions and resume after server restarts
+- FFmpeg stops cleanly and each recording includes an `ffmpeg.log` for troubleshooting
+- Fixed playback during recording with FFmpeg 7.1+, connection-limit reporting, timestamps after stream recovery, and recurring series duration
+
+#### Upgrade Notes
+- Wait for active recordings to finish and back up all server data before updating
+- Single-file merging is disabled by default and briefly needs twice the recording's disk space; existing recordings are unchanged
 
 #### Documentation Changes
 - Added the maintainer's website beside the existing GitHub link in the credits
