@@ -2,7 +2,7 @@ services:
 
   uhf-server:
 
-    image: solidpixel/uhf-server:uhf-2.2.0-ffmpeg7.1.5-d1
+    image: solidpixel/uhf-server:uhf-2.2.1-ffmpeg7.1.5-d1
     container_name: uhf-server
     restart: unless-stopped
 

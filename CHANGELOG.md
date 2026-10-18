@@ -1,6 +1,28 @@
 # Changelog
 
 <!-- Add your changes below. Most recent at the top. -->
+## Version 2.2.1 – 2026-10-18
+
+#### Docker Image Changes
+- Updated `uhf-server` to `2.2.1` ([upstream release](https://github.com/swapplications/uhf-server-dist/releases/tag/2.2.1))
+- Retained Debian 13 slim, FFmpeg `7.1.5`, Comskip, and amd64/arm64 support
+
+#### Docker Compose Changes
+- Updated the image tag to `solidpixel/uhf-server:uhf-2.2.1-ffmpeg7.1.5-d1`
+
+#### Upstream Fixes
+- Improved recovery when a playlist server unexpectedly ends a stream
+- Upstream includes a fix for leftover recording folders and notifications after deleting a recording during commercial detection; see the known limitation below
+
+#### Known Limitation
+- When deleting a recording during commercial detection, Comskip can continue processing the deleted video and consuming CPU until it exits. The video can keep using disk space while Comskip holds it open
+- Tests with the bundled Comskip executable confirmed activity for at least 3 seconds after deletion on native arm64 and 10 seconds on emulated amd64. Both processes were gone by the 30-second check; longer recordings may take longer
+- The recording folder stayed deleted and the library entry was removed in these tests. Push notification delivery was not tested, and immediate analysis termination is not confirmed
+- Commercial detection is disabled by default. To avoid this behavior, wait for analysis to finish before deleting a recording, or leave `ENABLE_COMMERCIAL_DETECTION=false`
+
+#### Upgrade Notes
+- Wait for active recordings to finish and back up all server data before updating
+
 ## Version 2.2.0 – 2026-10-15
 
 #### Docker Image Changes
