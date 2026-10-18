@@ -1,9 +1,9 @@
 # UHF Server – Docker Setup
 
-[![Repo](https://img.shields.io/badge/repo-2.2.0-purple.svg)](CHANGELOG.md)
-[![UHF Server](https://img.shields.io/badge/uhf_server-2.2.0-orange.svg)](https://github.com/swapplications/uhf-server-dist)
+[![Repo](https://img.shields.io/badge/repo-2.2.1-purple.svg)](CHANGELOG.md)
+[![UHF Server](https://img.shields.io/badge/uhf_server-2.2.1-orange.svg)](https://github.com/swapplications/uhf-server-dist)
 [![FFmpeg](https://img.shields.io/badge/ffmpeg-7.1.5-green.svg)](https://ffmpeg.org/)
-[![Docker](https://img.shields.io/badge/Docker-uhf--2.2.0--ffmpeg7.1.5--d1-blue?logo=docker)](https://hub.docker.com/r/solidpixel/uhf-server/tags)
+[![Docker](https://img.shields.io/badge/Docker-uhf--2.2.1--ffmpeg7.1.5--d1-blue?logo=docker)](https://hub.docker.com/r/solidpixel/uhf-server/tags)
 
 Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No manual setup, no system-level dependencies — just `docker compose up` and visit port 8000 (or your custom port).
 
@@ -18,7 +18,7 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 - ✨ [Features](#-features)
 - 📋 [Requirements](#-requirements)
 - 🚀 [Getting Started](#-getting-started)
-- ⬆️ [Upgrading to 2.2.0](#upgrading-to-220)
+- ⬆️ [Upgrading to 2.2.1](#upgrading-to-221)
 - 🌐 [Web interface](#web-interface)
 - ⚙️ [Customization](#️-customization)
 - 🖥️ [Running on Unraid](#️-running-on-unraid-and-truenas-scale)
@@ -79,13 +79,15 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
     - SERVER ADDRESS: `<your-host-ip>`
     - SERVER PORT: `8000` (or the port you set up in `docker-compose.yml`)
 
-## Upgrading to 2.2.0
+## Upgrading to 2.2.1
 
-UHF 2.2.0 adds recovery after stream interruptions, resumes recordings after a server restart, and fixes playback during recording with FFmpeg 7.1 or newer. See the [upstream 2.2.0 release notes](https://github.com/swapplications/uhf-server-dist/releases/tag/2.2.0).
+UHF 2.2.1 improves recovery when a playlist server unexpectedly ends a stream. Upstream also includes a fix for deleting recordings during commercial detection. See the [upstream 2.2.1 release notes](https://github.com/swapplications/uhf-server-dist/releases/tag/2.2.1).
+
+**Known limitation:** Comskip can continue processing a deleted recording and consuming CPU until it exits; the video can keep using disk space while the process holds it open. Tests confirmed that the folder and library entry were removed, but immediate analysis termination was not confirmed. Wait for commercial detection to finish before deleting a recording, or leave `ENABLE_COMMERCIAL_DETECTION=false` (the default). See the [2.2.1 changelog](CHANGELOG.md#version-221--2026-10-18) for test details.
 
 UHF Server 2 records new programs as HLS playlists and segments. Existing legacy single-file recordings remain supported.
 
-Wait for active recordings to finish, then back up the complete `uhf-data` directory and any separate recordings mount. Update your Compose file to use `solidpixel/uhf-server:uhf-2.2.0-ffmpeg7.1.5-d1`, retaining the existing `./uhf-data:/var/lib/uhf-server` mount, and run:
+Wait for active recordings to finish, then back up the complete `uhf-data` directory and any separate recordings mount. Update your Compose file to use `solidpixel/uhf-server:uhf-2.2.1-ffmpeg7.1.5-d1`, retaining the existing `./uhf-data:/var/lib/uhf-server` mount, and run:
 
 ```bash
 docker compose pull
