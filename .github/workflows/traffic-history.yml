@@ -1,0 +1,88 @@
+name: Preserve GitHub traffic history
+
+on:
+  schedule:
+    # UTC; daily snapshots preserve data before GitHub's 14-day window expires.
+    - cron: '23 23 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-traffic-history
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    if: github.repository == 'solid-pixel/uhf-server-docker' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      collected: ${{ steps.token.outputs.available }}
+    steps:
+      - name: Check traffic token
+        id: token
+        env:
+          GHRS_TOKEN: ${{ secrets.GHRS_GITHUB_API_TOKEN }}
+        shell: bash
+        run: |
+          if [[ -n "$GHRS_TOKEN" ]]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Add GHRS_GITHUB_API_TOKEN to enable traffic collection; see .dev/TRAFFIC_HISTORY.md."
+          fi
+
+      - name: Preserve traffic and generate reports
+        if: steps.token.outputs.available == 'true'
+        # github-repo-stats v1.4.2, pinned to its immutable commit.
+        uses: jgehrcke/github-repo-stats@306db38ad131cab2aa5f2cd3062bf6f8aa78c1aa
+        with:
+          repository: solid-pixel/uhf-server-docker
+          databranch: github-repo-stats
+          ghtoken: ${{ secrets.GHRS_GITHUB_API_TOKEN }}
+
+      - name: Check out generated reports
+        if: steps.token.outputs.available == 'true'
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: github-repo-stats
+          path: traffic-data
+          persist-credentials: false
+
+      - name: Prepare dashboard
+        if: steps.token.outputs.available == 'true'
+        shell: bash
+        run: |
+          report_dir="traffic-data/solid-pixel/uhf-server-docker/latest-report"
+          test -s "$report_dir/report.html"
+          test -s "$report_dir/report.pdf"
+          mkdir -p _site
+          cp -R "$report_dir/." _site/
+          cp _site/report.html _site/index.html
+
+      - name: Upload dashboard
+        if: steps.token.outputs.available == 'true'
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b # v4
+        with:
+          path: _site
+
+  publish:
+    needs: snapshot
+    if: needs.snapshot.outputs.collected == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check Pages configuration
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+
+      - name: Publish dashboard
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
