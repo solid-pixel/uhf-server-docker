@@ -18,6 +18,8 @@ jobs:
     if: github.repository == 'solid-pixel/uhf-server-docker' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      contents: write # Save Docker counter history on the data branch.
     outputs:
       collected: ${{ steps.token.outputs.available }}
     steps:
@@ -61,6 +63,39 @@ jobs:
           mkdir -p _site
           cp -R "$report_dir/." _site/
           cp _site/report.html _site/index.html
+
+      - name: Check out dashboard tools
+        if: steps.token.outputs.available == 'true'
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.sha }}
+          path: dashboard-tools
+          persist-credentials: false
+
+      - name: Collect Docker pulls and extend dashboard
+        if: steps.token.outputs.available == 'true'
+        run: >-
+          python3 dashboard-tools/.dev/docker-pulls.py
+          --history traffic-data/solid-pixel/uhf-server-docker/docker-data/pulls.json
+          --site _site
+
+      - name: Save Docker pull history
+        if: steps.token.outputs.available == 'true'
+        working-directory: traffic-data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          history="solid-pixel/uhf-server-docker/docker-data/pulls.json"
+          if [[ -f "$history" ]]; then
+            git add "$history"
+            if ! git diff --cached --quiet; then
+              git config user.name "github-actions[bot]"
+              git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+              git commit -m "Record Docker Hub pull counter"
+              git -c credential.helper= -c 'credential.helper=!gh auth git-credential' push origin HEAD:github-repo-stats
+            fi
+          fi
 
       - name: Upload dashboard
         if: steps.token.outputs.available == 'true'
