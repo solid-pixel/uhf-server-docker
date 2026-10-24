@@ -1,0 +1,42 @@
+name: Preserve GitHub traffic history
+
+on:
+  schedule:
+    # UTC; daily snapshots preserve data before GitHub's 14-day window expires.
+    - cron: '23 23 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-traffic-history
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    if: github.repository == 'solid-pixel/uhf-server-docker'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check traffic token
+        id: token
+        env:
+          GHRS_TOKEN: ${{ secrets.GHRS_GITHUB_API_TOKEN }}
+        shell: bash
+        run: |
+          if [[ -n "$GHRS_TOKEN" ]]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Add GHRS_GITHUB_API_TOKEN to enable traffic collection; see .dev/TRAFFIC_HISTORY.md."
+          fi
+
+      - name: Preserve traffic and generate reports
+        if: steps.token.outputs.available == 'true'
+        # github-repo-stats v1.4.2, pinned to its immutable commit.
+        uses: jgehrcke/github-repo-stats@306db38ad131cab2aa5f2cd3062bf6f8aa78c1aa
+        with:
+          repository: solid-pixel/uhf-server-docker
+          databranch: github-repo-stats
+          ghtoken: ${{ secrets.GHRS_GITHUB_API_TOKEN }}
