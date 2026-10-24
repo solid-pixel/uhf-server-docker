@@ -32,7 +32,17 @@ The snapshots and reports will be public because this repository is public. They
 
 The first API run can collect only the latest 14 days. Older traffic cannot be recovered unless a previous service already archived it. Never add daily or rolling unique-visitor/cloner counts to claim lifetime unique users. Clones can include automated activity and do not measure active installations.
 
-Docker pull history is being collected separately; this action is for GitHub traffic.
+### Docker pull history
+
+The same daily run reads the public `pull_count` for `solidpixel/uhf-server` from Docker Hub and adds a Docker pulls section to both HTML entry points. It shows the current total, observation time, a cumulative chart once two days exist, and changes between observations. The PDF remains the upstream GitHub-only report.
+
+Snapshots are saved to `solid-pixel/uhf-server-docker/docker-data/pulls.json` on `github-repo-stats` and published as `docker-pulls.json`. No Docker Hub credentials are needed. The snapshot job uses the temporary `GITHUB_TOKEN` with Contents write permission to save this file; the existing traffic token is unchanged.
+
+There is one observation per UTC day; reruns replace that day's observation. The first observation is a baseline, not new pulls that day. Missing days are not filled with zeroes, and changes are labelled with the elapsed hours between observations. If the counter decreases, the observation is retained but the change is marked unavailable. Pull counts include repeated and automated activity, not unique users or active installations. The public endpoint supplies a current total, not historical daily counts.
+
+If Docker Hub is unavailable or returns invalid counter data, collection retains the existing history and the dashboard labels it as stale. With no saved history it shows an unavailable notice. GitHub reporting can still publish. Invalid saved history or failure to persist a new snapshot stops publication so that a successful deployment does not conceal lost history.
+
+Validate with `python3 -m unittest discover -s .dev/tests` and `actionlint .github/workflows/traffic-history.yml`. After merging, run the workflow and verify the Docker section, JSON download, and committed snapshot on the data branch.
 
 ## Baseline observed on 2026-10-24
 

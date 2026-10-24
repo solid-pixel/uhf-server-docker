@@ -1,0 +1,29 @@
+name: Dashboard checks
+
+on:
+  pull_request:
+    paths:
+      - '.dev/docker-pulls.py'
+      - '.dev/tests/**'
+      - '.github/workflows/traffic-history.yml'
+      - '.github/workflows/dashboard-checks.yml'
+  push:
+    branches: [main]
+    paths:
+      - '.dev/docker-pulls.py'
+      - '.dev/tests/**'
+      - '.github/workflows/traffic-history.yml'
+      - '.github/workflows/dashboard-checks.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - run: python3 -m unittest discover -s .dev/tests -v

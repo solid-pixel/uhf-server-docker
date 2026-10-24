@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Archive Docker Hub pull counts daily and display their history on the traffic dashboard.
+
 <!-- Add your changes below. Most recent at the top. -->
 ## Version 2.2.1 – 2026-10-18
 
