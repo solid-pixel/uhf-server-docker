@@ -6,7 +6,7 @@ body:
       value: |
         This repository maintains community Docker packaging and deployment. UHF app and server bugs, product feature requests, and native Windows/macOS/Linux issues belong with [UHF support](https://getuhf.com/support), even when a product bug also occurs inside Docker.
 
-        Read [Support and issue scope](https://github.com/solid-pixel/uhf-server-docker/blob/main/.github/SUPPORT.md) before continuing. Remove passwords, tokens, stream URLs, and other private information from all fields and attachments.
+        Read [Support and issue scope](https://github.com/ale-benassi/uhf-server-docker/blob/main/.github/SUPPORT.md) before continuing. Remove passwords, tokens, stream URLs, and other private information from all fields and attachments.
   - type: checkboxes
     id: scope
     attributes:

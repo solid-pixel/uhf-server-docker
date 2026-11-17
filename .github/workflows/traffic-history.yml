@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   snapshot:
-    if: github.repository == 'solid-pixel/uhf-server-docker' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    if: github.repository_id == '968574688' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -41,7 +41,7 @@ jobs:
         # github-repo-stats v1.4.2, pinned to its immutable commit.
         uses: jgehrcke/github-repo-stats@306db38ad131cab2aa5f2cd3062bf6f8aa78c1aa
         with:
-          repository: solid-pixel/uhf-server-docker
+          repository: ${{ github.repository }}
           databranch: github-repo-stats
           ghtoken: ${{ secrets.GHRS_GITHUB_API_TOKEN }}
 
@@ -57,7 +57,7 @@ jobs:
         if: steps.token.outputs.available == 'true'
         shell: bash
         run: |
-          report_dir="traffic-data/solid-pixel/uhf-server-docker/latest-report"
+          report_dir="traffic-data/${GITHUB_REPOSITORY}/latest-report"
           test -s "$report_dir/report.html"
           test -s "$report_dir/report.pdf"
           mkdir -p _site
@@ -76,7 +76,7 @@ jobs:
         if: steps.token.outputs.available == 'true'
         run: >-
           python3 dashboard-tools/.dev/docker-pulls.py
-          --history traffic-data/solid-pixel/uhf-server-docker/docker-data/pulls.json
+          --history "traffic-data/${GITHUB_REPOSITORY}/docker-data/pulls.json"
           --site _site
 
       - name: Save Docker pull history
@@ -86,7 +86,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
-          history="solid-pixel/uhf-server-docker/docker-data/pulls.json"
+          history="${GITHUB_REPOSITORY}/docker-data/pulls.json"
           if [[ -f "$history" ]]; then
             git add "$history"
             if ! git diff --cached --quiet; then

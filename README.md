@@ -65,7 +65,7 @@ Run the [UHF Recording Server](https://www.uhfapp.com/server) using Docker. No m
 
     ```bash
     # Clone this repo
-    git clone https://github.com/solid-pixel/uhf-server-docker
+    git clone https://github.com/ale-benassi/uhf-server-docker
 
     # Navigate to the directory
     cd uhf-server-docker
@@ -139,7 +139,7 @@ If you’re not using Docker Compose, make sure to set the container’s command
 ## 👥 Credits
 
 - [UHF Server](https://www.uhfapp.com/server) by Swapplications
-- Docker wrapper by [Alessandro Benassi](https://github.com/solid-pixel) ([alebenassi.com](https://alebenassi.com))
+- Docker wrapper by [Alessandro Benassi](https://github.com/ale-benassi) ([alebenassi.com](https://alebenassi.com))
 - All the Discord legends that helped me test this
 
 ---

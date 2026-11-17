@@ -4,7 +4,7 @@ This workflow uses [github-repo-stats](https://github.com/jgehrcke/github-repo-s
 
 ## Activation
 
-1. Create a fine-grained personal access token scoped only to `solid-pixel/uhf-server-docker`.
+1. Create a fine-grained personal access token scoped only to `ale-benassi/uhf-server-docker`.
 2. Give it repository **Administration: read** (GitHub's traffic API requirement), **Contents: read and write** (to save snapshots on the data branch), and the automatically included metadata read permission. Set an expiry and plan to renew the secret before expiry.
 3. Store the token as the repository Actions secret `GHRS_GITHUB_API_TOKEN`. Do not paste it into an issue, PR, chat, or committed file.
 4. In **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions**. This is a one-time repository setting; the workflow does not enable Pages itself.
@@ -18,9 +18,9 @@ The action creates the data branch if absent. It does not deploy the application
 
 After the first successful deployment, the dashboard is available at:
 
-**https://solid-pixel.github.io/uhf-server-docker/**
+**https://ale-benassi.github.io/uhf-server-docker/**
 
-The PDF is available at **https://solid-pixel.github.io/uhf-server-docker/report.pdf**. If a custom Pages domain is configured, use the URL shown by the deployment instead.
+The PDF is available at **https://ale-benassi.github.io/uhf-server-docker/report.pdf**. If a custom Pages domain is configured, use the URL shown by the deployment instead.
 
 Only the generated `latest-report` directory is uploaded to Pages, with `report.html` also served as `index.html`. Raw snapshots remain on the data branch. The publication job uses GitHub's temporary workflow token with Pages and identity-token permissions; the traffic token does not need additional permissions.
 
@@ -36,7 +36,7 @@ The first API run can collect only the latest 14 days. Older traffic cannot be r
 
 The same daily run reads the public `pull_count` for `solidpixel/uhf-server` from Docker Hub and adds a Docker pulls section to both HTML entry points. It shows the current total, observation time, a cumulative chart once two days exist, and changes between observations. The PDF remains the upstream GitHub-only report.
 
-Snapshots are saved to `solid-pixel/uhf-server-docker/docker-data/pulls.json` on `github-repo-stats` and published as `docker-pulls.json`. No Docker Hub credentials are needed. The snapshot job uses the temporary `GITHUB_TOKEN` with Contents write permission to save this file; the existing traffic token is unchanged.
+Snapshots are saved to `ale-benassi/uhf-server-docker/docker-data/pulls.json` on `github-repo-stats` and published as `docker-pulls.json`. No Docker Hub credentials are needed. The snapshot job uses the temporary `GITHUB_TOKEN` with Contents write permission to save this file; the existing traffic token is unchanged.
 
 There is one observation per UTC day; reruns replace that day's observation. The first observation is a baseline, not new pulls that day. Missing days are not filled with zeroes, and changes are labelled with the elapsed hours between observations. If the counter decreases, the observation is retained but the change is marked unavailable. Pull counts include repeated and automated activity, not unique users or active installations. The public endpoint supplies a current total, not historical daily counts.
 
@@ -55,3 +55,7 @@ These are dashboard totals, not counts of product users. A separate private snap
 ## Validation and limitations
 
 Workflow structure and pinned action inputs were checked against upstream v1.4.2 and GitHub Pages documentation. A live run requires the repository secret, Pages configured to use GitHub Actions, and this workflow on the default branch. Successful collection, chart rendering, PDF download, publication, and scheduled execution must be verified after activation.
+
+## Account rename — 17 November 2026
+
+The workflow identifies this repository by numeric ID and derives collection and report paths from `GITHUB_REPOSITORY`. The saved statistics directory on `github-repo-stats` was moved from `solid-pixel/uhf-server-docker` to `ale-benassi/uhf-server-docker`, preserving the existing snapshots and Docker pull history. Future repository renames require moving that directory before the next collection.
